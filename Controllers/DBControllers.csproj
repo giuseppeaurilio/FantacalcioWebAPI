@@ -17,4 +17,10 @@
     <Folder Include="DBScript\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="DBScript\script.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

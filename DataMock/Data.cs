@@ -6,11 +6,11 @@ namespace DataMock
 {
     public class FakeData
     {
-        private static Random random = new Random();
-        private static string lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
-        private static string uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        private static string numbers = "1234567890";
-        private static string specialChars = "!£$%&()='?^|+*@°#§<>,;.:-_{~}";// "\/
+        private static readonly Random random = new Random();
+        private static readonly string lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+        private static readonly string uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private static readonly string numbers = "1234567890";
+        private static readonly string specialChars = "!£$%&()='?^|+*@°#§<>,;.:-_{~}";// "\/
         public static string GetString(int length, bool useUppercase = false, bool useLowercase = false, bool useNumber = false, bool useSpecial = false)
         {
             StringBuilder charsSB = new StringBuilder();
@@ -43,21 +43,21 @@ namespace DataMock
 
         }
 
-        public static double GetDouble(int parteIntera, int partedecimale)
+        public static double GetDouble(int lunghezzaParteIntera = 1, int lunghezzaParteDecimale = 2)
         {
-            string pi = FakeData.GetString(1, false, false, true, false);
-            string pd = FakeData.GetString(2, false, false, true, false);
+            string pi = FakeData.GetString(lunghezzaParteIntera, false, false, true, false);
+            string pd = FakeData.GetString(lunghezzaParteDecimale, false, false, true, false);
             return double.Parse(string.Format("{0},{1}", pi, pd));
         }
 
         /// <summary>
-        /// restituisce una data successiva a quella passata, entro un range di giorni definito da min e max
+        /// restituisce una data successiva a quella passata, entro un range di ore definito da min e max
         /// </summary>
         /// <param name="startDate">data a partire dalla quale si calcola il giorno randomico</param>
         /// <param name="min">minimo numero di ore da aggiungere alla data di partenza</param>
         /// <param name="max"> massimo numero di ore da aggiungere alla data di partenza</param>
         /// <returns></returns>
-        public static DateTime GetDate(DateTime startDate, int min = 0, int max = 365)
+        public static DateTime GetDate(DateTime startDate, int min = 0, int max = 0)
         {
             Random random = new Random();
             return startDate.AddHours(random.Next(min, max));
@@ -69,10 +69,16 @@ namespace DataMock
         /// <param name="min">numero minimo casuale</param>
         /// <param name="max">numero massimo casuale</param>
         /// <returns></returns>
-        public static int GetIntegerNumber(int min = int.MinValue, int max = int.MaxValue)
+        public static int GetInteger(int min = int.MinValue, int max = int.MaxValue)
         {
             Random random = new Random();
             return random.Next(min, max);
+        }
+
+        public static bool GetBoolean()
+        {
+            Random random = new Random();
+            return random.Next(0, 1) == 0;
         }
     }
 }

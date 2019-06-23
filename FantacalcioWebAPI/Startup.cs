@@ -31,7 +31,7 @@ namespace FantacalcioWebAPI
                 builder.AddUserSecrets<Startup>();
             }
 
-            Configuration = configuration;
+            //Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }

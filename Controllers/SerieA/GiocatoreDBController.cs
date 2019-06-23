@@ -19,7 +19,7 @@ namespace DBControllers.SerieA
             int ret = 0;
             using (var connection = new SqlConnection(this.connection))
             {
-                var sql = "seriea.giocatore_insert";
+                var sql = "[seriea].[giocatore_insert]";
                 var p = new DynamicParameters();
                 p.Add("@Nome", nome);
                 p.Add("@Cognome", cognome);
@@ -72,14 +72,14 @@ namespace DBControllers.SerieA
         }
 
         public int InserisciVotoDelGiocatore(int idGiocatore, int idGiornata,
-            decimal voto, decimal fantavoto, int golFatti, int golSubiti, int autogol, int assist,
+            double voto, double fantavoto, int golFatti, int golSubiti, int autogol, int assist,
             bool ammonizione, bool espulsione,
             int rigoriSbagliati, int rigoriTrasformati, int rigoriParati, int rigoriSubiti)
         {
             int ret = 0;
             using (var connection = new SqlConnection(this.connection))
             {
-                var sql = "seriea.[giocatore_insert_voto]";
+                var sql = "[seriea].[giocatore_insert_voto]";
                 var p = new DynamicParameters();
                 p.Add("@GiocatoreId", idGiocatore);
                 p.Add("@GiornataId", idGiornata);
@@ -116,14 +116,13 @@ namespace DBControllers.SerieA
             return ret;
         }
 
-        public int UpdateVotoDelGiocatore(int id, decimal voto, decimal fantavoto,
+        public void UpdateVotoDelGiocatore(int id, double voto, double fantavoto,
             int golFatti, int golSubiti, int autogol, int assist, bool ammonizione, bool espulsione,
             int rigoriSbagliati, int rigoriTrasformati, int rigoriParati, int rigoriSubiti)
         {
-            int ret = 0;
             using (var connection = new SqlConnection(this.connection))
             {
-                var sql = "seriea.[giocatore_update_voto]";
+                var sql = "[seriea].[giocatore_update_voto]";
                 var p = new DynamicParameters();
                 p.Add("@Id", id);
 
@@ -140,9 +139,6 @@ namespace DBControllers.SerieA
                 p.Add("@RigoriParati", rigoriParati);
                 p.Add("@RigoriSubiti", rigoriSubiti);
 
-
-                p.Add("@Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
-
                 p.Add("@ErrorMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 4000);
                 p.Add("@return_value", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
@@ -152,16 +148,13 @@ namespace DBControllers.SerieA
 
                 int retDB = p.Get<int>("@return_value");
                 string Message = p.Get<string>("@ErrorMessage");
-                if (retDB == 0)
-                    ret = p.Get<int>("@Id");
-                else
+                if (retDB != 0)
                     throw new SusyLeagueDBException(retDB, Message, sql);
             }
-            return ret;
         }
 
         public int InserisciStatisticaDelGiocatorePerStagione(int idGiocatore, int idStagione,
-            int presenze, int giocabili, decimal mediaVoto, decimal mediaFantavoto,
+            int presenze, int giocabili, double mediaVoto, double mediaFantavoto,
             int golFatti, int golSubiti, int autogol, int assist,
             int ammonizione, int espulsione,
             int rigoriSbagliati, int rigoriTrasformati, int rigoriParati, int rigoriSubiti)
@@ -169,7 +162,7 @@ namespace DBControllers.SerieA
             int ret = 0;
             using (var connection = new SqlConnection(this.connection))
             {
-                var sql = "seriea.[giocatore_insert_statistica]";
+                var sql = "[seriea].[giocatore_insert_statistica]";
                 var p = new DynamicParameters();
                 p.Add("@GiocatoreId", idGiocatore);
                 p.Add("@StagioneId", idStagione);
@@ -208,16 +201,15 @@ namespace DBControllers.SerieA
             return ret;
         }
 
-        public int UpdateStatisticaDelGiocatorePerStagione(int id,
-            int presenze, int giocabili, decimal mediaVoto, decimal mediaFantavoto,
+        public void UpdateStatisticaDelGiocatorePerStagione(int id,
+            int presenze, int giocabili, double mediaVoto, double mediaFantavoto,
             int golFatti, int golSubiti, int autogol, int assist,
             int ammonizione, int espulsione,
             int rigoriSbagliati, int rigoriTrasformati, int rigoriParati, int rigoriSubiti)
         {
-            int ret = 0;
             using (var connection = new SqlConnection(this.connection))
             {
-                var sql = "seriea.[giocatore_update_statistica]";
+                var sql = "[seriea].[giocatore_update_statistica]";
                 var p = new DynamicParameters();
                 p.Add("@Id", id);
 
@@ -236,9 +228,6 @@ namespace DBControllers.SerieA
                 p.Add("@RigoriParati", rigoriParati);
                 p.Add("@RigoriSubiti", rigoriSubiti);
 
-
-                p.Add("@Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
-
                 p.Add("@ErrorMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 4000);
                 p.Add("@return_value", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
@@ -248,12 +237,9 @@ namespace DBControllers.SerieA
 
                 int retDB = p.Get<int>("@return_value");
                 string Message = p.Get<string>("@ErrorMessage");
-                if (retDB == 0)
-                    ret = p.Get<int>("@Id");
-                else
+                if (retDB != 0)
                     throw new SusyLeagueDBException(retDB, Message, sql);
             }
-            return ret;
         }
     }
 }

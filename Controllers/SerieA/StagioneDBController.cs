@@ -17,7 +17,7 @@ namespace DBControllers.SerieA
             int ret = 0;
             using (var connection = new SqlConnection(this.connection))
             {
-                var sql = "seriea.stagione_insert_giornata";
+                var sql = "[seriea].[stagione_insert]";
                 var p = new DynamicParameters();
                 p.Add("@Descrizione", descrizione);
                 p.Add("@Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -43,7 +43,7 @@ namespace DBControllers.SerieA
             using (
                 var connection = new SqlConnection(this.connection))
             {
-                var sql = "[seriea].[giornata_insert]";
+                var sql = "[seriea].[stagione_insert_giornata]";
                 var p = new DynamicParameters();
                 p.Add("@Descrizione", descrizione);
                 p.Add("@DataInizio", dataInizio, DbType.DateTime);
@@ -76,7 +76,7 @@ namespace DBControllers.SerieA
 
             using (var connection = new SqlConnection(this.connection))
             {
-                var sql = "[seriea].[stagione_update_giornata]";
+                var sql = "[seriea].[giornata_update]";
                 var p = new DynamicParameters();
                 p.Add("@Id", id);
 
@@ -100,15 +100,17 @@ namespace DBControllers.SerieA
 
         }
 
-        public void InserisciSquadraInStagione(int idStagione, int idSquadra)
+        public int InserisciSquadraInStagione(int idStagione, int idSquadra)
         {
+            int ret = 0;
             using (var connection = new SqlConnection(this.connection))
             {
                 var sql = "[seriea].[stagione_insert_squadra]";
                 var p = new DynamicParameters();
-                p.Add("@IdStagione", idStagione);
-                p.Add("@IdSquadra", idSquadra);
+                p.Add("@StagioneId", idStagione);
+                p.Add("@SquadraId", idSquadra);
 
+                p.Add("@Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 p.Add("@ErrorMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 4000);
                 p.Add("@return_value", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
@@ -119,9 +121,12 @@ namespace DBControllers.SerieA
 
                 int retDB = p.Get<int>("@return_value");
                 string Message = p.Get<string>("@ErrorMessage");
-                if (retDB != 0)
+                if (retDB == 0)
+                    ret = p.Get<int>("@Id");
+                else
                     throw new SusyLeagueDBException(retDB, Message, sql);
             }
+            return ret;
         }
     }
 

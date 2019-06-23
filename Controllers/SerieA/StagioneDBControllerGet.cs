@@ -20,7 +20,7 @@ namespace DBControllers.SerieA
             using (var connection = new SqlConnection(this.connection))
             {
 
-                var sql = "seriea.stagione_all_get";
+                var sql = "[seriea].[stagione_all_get]";
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();

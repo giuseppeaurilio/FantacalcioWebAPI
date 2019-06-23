@@ -13,6 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\Controllers\DBScript\script.sql" Link="script.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="1.60.6" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
@@ -24,12 +30,6 @@
     <ProjectReference Include="..\Controllers\DBControllers.csproj" />
     <ProjectReference Include="..\CustomExceptions\CustomExceptions.csproj" />
     <ProjectReference Include="..\DataMock\DataMock.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="script.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

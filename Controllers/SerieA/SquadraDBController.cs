@@ -19,9 +19,10 @@ namespace DBControllers.SerieA
             int ret = 0;
             using (var connection = new SqlConnection(this.connection))
             {
-                var sql = "seriea.squadra_insert";
+                var sql = "[seriea].[squadra_insert]";
                 var p = new DynamicParameters();
                 p.Add("@Descrizione", descrizione);
+
                 p.Add("@Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                 p.Add("@ErrorMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 4000);
@@ -41,8 +42,9 @@ namespace DBControllers.SerieA
             return ret;
         }
 
-        public void InserisciGiocatoreInSquadra(int idGiocatore, int idSquadra, DateTime dataInizio)
+        public int InserisciGiocatoreInSquadra(int idGiocatore, int idSquadra, DateTime dataInizio)
         {
+            int ret = 0;
             using (var connection = new SqlConnection(this.connection))
             {
                 var sql = "[seriea].[squadra_insert_giocatore]";
@@ -50,6 +52,8 @@ namespace DBControllers.SerieA
                 p.Add("@GiocatoreId", idGiocatore);
                 p.Add("@SquadraId", idSquadra);
                 p.Add("@DataInizio", dataInizio, DbType.DateTime);
+
+                p.Add("@Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                 p.Add("@ErrorMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 4000);
                 p.Add("@return_value", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
@@ -61,9 +65,12 @@ namespace DBControllers.SerieA
 
                 int retDB = p.Get<int>("@return_value");
                 string Message = p.Get<string>("@ErrorMessage");
-                if (retDB != 0)
+                if (retDB == 0)
+                    ret = p.Get<int>("@Id");
+                else
                     throw new SusyLeagueDBException(retDB, Message, sql);
             }
+            return ret;
         }
 
         public void CancellaGiocatoreDaSquadra(int idGiocatore, int idSquadra, DateTime dataFine)
@@ -74,7 +81,7 @@ namespace DBControllers.SerieA
                 var p = new DynamicParameters();
                 p.Add("@GiocatoreId", idGiocatore);
                 p.Add("@SquadraId", idSquadra);
-                p.Add("@DataInizio", dataFine, DbType.DateTime);
+                p.Add("@DataFine", dataFine, DbType.DateTime);
 
                 p.Add("@ErrorMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 4000);
                 p.Add("@return_value", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
