@@ -9,7 +9,6 @@ namespace Models.SerieA
         public int Id { get; set; }
         public int GiocatoreId { get; set; }
         public int GiornataId { get; set; }
-
         public double Votazione { get; set; }
         public double Fantavoto { get; set; }
         public int GolFatti { get; set; }

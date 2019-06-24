@@ -14,7 +14,7 @@ namespace DBControllers.SerieA
         {
         }
 
-        public int InserisciSquadra(string descrizione)
+        public int InsertSquadra(string descrizione)
         {
             int ret = 0;
             using (var connection = new SqlConnection(this.connection))
@@ -42,7 +42,7 @@ namespace DBControllers.SerieA
             return ret;
         }
 
-        public int InserisciGiocatoreInSquadra(int idGiocatore, int idSquadra, DateTime dataInizio)
+        public int InsertGiocatoreInSquadra(int idGiocatore, int idSquadra, DateTime dataInizio)
         {
             int ret = 0;
             using (var connection = new SqlConnection(this.connection))
@@ -73,7 +73,7 @@ namespace DBControllers.SerieA
             return ret;
         }
 
-        public void CancellaGiocatoreDaSquadra(int idGiocatore, int idSquadra, DateTime dataFine)
+        public void DeleteGiocatoreDaSquadra(int idGiocatore, int idSquadra, DateTime dataFine)
         {
             using (var connection = new SqlConnection(this.connection))
             {

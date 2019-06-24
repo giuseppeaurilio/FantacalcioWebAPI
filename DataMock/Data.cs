@@ -43,6 +43,21 @@ namespace DataMock
 
         }
 
+        public static string GetUsername()
+        {
+            string user = FakeData.GetString(1, true, false, false, false);
+            string domain = FakeData.GetString(6, false, true, false, false);
+            string final = FakeData.GetString(2, false, false, true, false);
+
+            return string.Format("{0}{1}{2}", user, domain, final);
+
+        }
+
+        public static string GetPassword()
+        {
+            return FakeData.GetString(12, true, true, true, true);
+        }
+
         public static double GetDouble(int lunghezzaParteIntera = 1, int lunghezzaParteDecimale = 2)
         {
             string pi = FakeData.GetString(lunghezzaParteIntera, false, false, true, false);

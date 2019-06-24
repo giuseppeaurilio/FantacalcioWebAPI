@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DBControllers.SerieA
+namespace DBControllers
 {
     public abstract class BaseDBController
     {

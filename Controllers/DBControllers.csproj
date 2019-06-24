@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Folder Include="DBScript\" />
+    <Folder Include="SusyLeague\" />
   </ItemGroup>
 
   <ItemGroup>
