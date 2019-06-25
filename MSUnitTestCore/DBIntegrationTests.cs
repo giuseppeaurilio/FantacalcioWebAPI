@@ -1235,6 +1235,246 @@ namespace MSUnitTestCore
                     throw;
             }
         }
+
+        [TestMethod]
+        public void InsertRuolo()
+        {
+            try
+            {
+                RuoloDBController c = new RuoloDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertRuolo(
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(1, true, false, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(1, true, false, false, false));
+
+                Assert.AreNotEqual(0, id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di doppio inserimento di statistica su giocatore, venga restituito l'errore 50017 dal DB")]
+        public void InsertRuolo_ERROR_Duplicato()
+        {
+            try
+            {
+                RuoloDBController c = new RuoloDBController(DBIntegrationTests.ConnectionString);
+                string sigla1 = DataMock.FakeData.GetString(1, true, false, false, false);
+                string sigla2 = DataMock.FakeData.GetString(1, true, false, false, false);
+                int id = c.InsertRuolo(
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    sigla1,
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    sigla2);
+                Assert.AreNotEqual(0, id);
+                //questa istruzione deve generare l'errore
+                id = c.InsertRuolo(
+                   DataMock.FakeData.GetString(8, false, true, false, false),
+                   sigla1,
+                   DataMock.FakeData.GetString(8, false, true, false, false),
+                   sigla2);
+                //qui non dovrebe mai arrivare
+                Assert.AreEqual(0, id);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(50017, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        public void InsertRuoloPerGiocatorePerStagione()
+        {
+            try
+            {
+                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                RuoloDBController cRuolo = new RuoloDBController(DBIntegrationTests.ConnectionString);
+                int idRuolo = cRuolo.InsertRuolo(
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(1, true, false, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(1, true, false, false, false));
+
+                Assert.AreNotEqual(0, idRuolo);
+
+                int id = cGiocatore.InsertRuoloDelGiocatorePerStagione(idGiocatore, idStagione, idRuolo);
+
+                Assert.AreNotEqual(0, id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di doppio inserimento della relazione ruolo giocatore stagione, venga restituito l'errore 50018 dal DB")]
+        public void InsertRuoloPerGiocatorePerStagione_ERROR_Duplicato()
+        {
+            try
+            {
+                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                RuoloDBController cRuolo = new RuoloDBController(DBIntegrationTests.ConnectionString);
+                int idRuolo = cRuolo.InsertRuolo(
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(1, true, false, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(1, true, false, false, false));
+                Assert.AreNotEqual(0, idRuolo);
+
+                int id = cGiocatore.InsertRuoloDelGiocatorePerStagione(idGiocatore, idStagione, idRuolo);
+                Assert.AreNotEqual(0, id);
+                //questa istruzione deve generare l'errore
+                id = cGiocatore.InsertRuoloDelGiocatorePerStagione(idGiocatore, idStagione, idRuolo);
+                //qui non dovrebe mai arrivare
+                Assert.AreEqual(0, id);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(50018, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento della relazione ruolo giocatore stagione per giocatore che non esiste, venga restituito l'errore 547 dal DB")]
+        public void InsertRuoloPerGiocatorePerStagione_ERROR_GiocatoreNOTFOUND()
+        {
+            try
+            {
+                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                RuoloDBController cRuolo = new RuoloDBController(DBIntegrationTests.ConnectionString);
+                int idRuolo = cRuolo.InsertRuolo(
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(1, true, false, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(1, true, false, false, false));
+                Assert.AreNotEqual(0, idRuolo);
+                //questa istruzione deve generare l'errore
+                int id = cGiocatore.InsertRuoloDelGiocatorePerStagione(0, idStagione, idRuolo);
+                //qui non dovrebe mai arrivare
+                Assert.AreEqual(0, id);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento della relazione ruolo giocatore stagione per stagione che non esiste, venga restituito l'errore 547 dal DB")]
+        public void InsertRuoloPerGiocatorePerStagione_ERROR_StagioneNOTFOUND()
+        {
+            try
+            {
+                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                RuoloDBController cRuolo = new RuoloDBController(DBIntegrationTests.ConnectionString);
+                int idRuolo = cRuolo.InsertRuolo(
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(1, true, false, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(1, true, false, false, false));
+                Assert.AreNotEqual(0, idRuolo);
+                //questa istruzione deve generare l'errore
+                int id = cGiocatore.InsertRuoloDelGiocatorePerStagione(idGiocatore, 0, idRuolo);
+                //qui non dovrebe mai arrivare
+                Assert.AreEqual(0, id);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento della relazione ruolo giocatore stagione per ruolo che non esiste, venga restituito l'errore 547 dal DB")]
+        public void InsertRuoloPerGiocatorePerStagione_ERROR_RuoloNOTFOUND()
+        {
+            try
+            {
+                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                RuoloDBController cRuolo = new RuoloDBController(DBIntegrationTests.ConnectionString);
+                int idRuolo = cRuolo.InsertRuolo(
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(1, true, false, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(1, true, false, false, false));
+                Assert.AreNotEqual(0, idRuolo);
+                //questa istruzione deve generare l'errore
+                int id = cGiocatore.InsertRuoloDelGiocatorePerStagione(idGiocatore, idStagione, 0);
+                //qui non dovrebe mai arrivare
+                Assert.AreEqual(0, id);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
         #endregion
 
 

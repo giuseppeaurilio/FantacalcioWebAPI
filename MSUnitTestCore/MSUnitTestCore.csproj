@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DBIntegrationTestBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="..\FantacalcioWebAPI\appsettings.json" Link="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
