@@ -111,7 +111,7 @@ namespace MSUnitTestCore
         [TestMethod]
         public void InsertStagione()
         {
-            StagioneDBController c = new StagioneDBController(DBIntegrationTests.ConnectionString);
+            DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
             int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
 
             Assert.AreNotEqual(0, id);
@@ -123,18 +123,21 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController c = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int id = 0;
                 string nomeStagione = DataMock.FakeData.GetString(8, false, true, false, false);
                 id = c.InsertStagione(nomeStagione);
+                //questa istruzione deve generare l'errore
                 id = c.InsertStagione(nomeStagione);
 
                 Assert.AreNotEqual(0, id);
             }
             catch (SusyLeagueDBException ex)
             {
-
-                Assert.AreEqual(50007, ex.Code);
+                if (ManageError)
+                    Assert.AreEqual(50007, ex.Code);
+                else
+                    throw;
             }
 
         }
@@ -151,7 +154,7 @@ namespace MSUnitTestCore
                 //int idStagione = current.Id;
 
                 //se voglio inserire una nuova stagione 
-                StagioneDBController c = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, id);
 
@@ -178,7 +181,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController c = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, id);
 
@@ -214,7 +217,7 @@ namespace MSUnitTestCore
             {
 
                 //se voglio inserire una nuova stagione 
-                StagioneDBController c = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, id);
 
@@ -246,7 +249,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController c = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, id);
 
@@ -258,7 +261,7 @@ namespace MSUnitTestCore
                     giornataStartDate,
                     giornataEndDate,
                     id);
-
+                //questa istruzione deve generare l'errore
                 idGiornata = c.InsertGiornataInStagione(descrizioneGiornata,
                    giornataStartDate,
                    giornataEndDate,
@@ -282,10 +285,11 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController c = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int id = 0;
                 DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
                 DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                //questa istruzione deve generare l'errore
                 c.UpdateGiornata(id, DataMock.FakeData.GetString(8, false, true, false, false), giornataStartDate,
                     giornataEndDate);
 
@@ -327,6 +331,7 @@ namespace MSUnitTestCore
                 int id = 0;
                 string nome = DataMock.FakeData.GetString(8, false, true, false, false);
                 id = c.InsertSquadra(nome);
+                //questa istruzione deve generare l'errore
                 id = c.InsertSquadra(nome);
 
                 Assert.AreNotEqual(0, id);
@@ -346,7 +351,7 @@ namespace MSUnitTestCore
             try
             {
 
-                StagioneDBController c = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, id);
 
@@ -374,7 +379,7 @@ namespace MSUnitTestCore
             try
             {
 
-                StagioneDBController c = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, id);
 
@@ -386,6 +391,8 @@ namespace MSUnitTestCore
 
                 int ret = c.InsertSquadraInStagione(id, ids);
                 Assert.AreNotEqual(0, ret);
+
+                //questa istruzione deve generare l'errore
                 ret = c.InsertSquadraInStagione(id, ids);
                 Assert.AreEqual(0, ret);
 
@@ -430,6 +437,7 @@ namespace MSUnitTestCore
                 string cognome = DataMock.FakeData.GetString(8, false, true, false, false);
                 string gazzaId = DataMock.FakeData.GetString(4, true, false, true, false);
                 id = c.InsertGiocatore(nome, cognome, gazzaId);
+                //questa istruzione deve generare l'errore
                 id = c.InsertGiocatore(nome, cognome, gazzaId);
 
                 Assert.AreEqual(0, id);
@@ -518,6 +526,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, ret);
 
                 int idSquadra2 = cs.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false));
+                //questa istruzione deve generare l'errore
                 ret = csq.InsertGiocatoreInSquadra(idGiocatore, idSquadra2,
                      DataMock.FakeData.GetDate(DateTime.Now, 0, 0));
 
@@ -587,7 +596,7 @@ namespace MSUnitTestCore
                 int ret = csq.InsertGiocatoreInSquadra(idGiocatore, idSquadra,
                      DataMock.FakeData.GetDate(DateTime.Now, 0, 0));
                 Assert.AreNotEqual(0, ret);
-
+                //questa istruzione deve generare l'errore
                 csq.DeleteGiocatoreDaSquadra(idGiocatore, 0,
                      DataMock.FakeData.GetDate(DateTime.Now, 0, 0));
 
@@ -606,7 +615,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -661,7 +670,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -731,7 +740,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -806,7 +815,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -832,6 +841,7 @@ namespace MSUnitTestCore
                 //      DataMock.FakeData.GetDate(DateTime.Now, 0, 0));
                 //Assert.AreNotEqual(0, idSquadraGiocatore);
 
+                //questa istruzione deve generare l'errore
                 int idVoto = cGiocatore.InsertVotoDelGiocatore(0, idGiornata
                     , DataMock.FakeData.GetDouble()
                     , DataMock.FakeData.GetDouble()
@@ -863,7 +873,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -889,6 +899,7 @@ namespace MSUnitTestCore
                 //      DataMock.FakeData.GetDate(DateTime.Now, 0, 0));
                 //Assert.AreNotEqual(0, idSquadraGiocatore);
 
+                //questa istruzione deve generare l'errore
                 int idVoto = cGiocatore.InsertVotoDelGiocatore(idGiocatore, 0
                     , DataMock.FakeData.GetDouble()
                     , DataMock.FakeData.GetDouble()
@@ -952,7 +963,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -994,7 +1005,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -1055,7 +1066,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -1118,7 +1129,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -1162,7 +1173,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 //int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 //Assert.AreNotEqual(0, idStagione);
 
@@ -1295,7 +1306,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -1331,7 +1342,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -1371,7 +1382,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -1408,7 +1419,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -1445,7 +1456,7 @@ namespace MSUnitTestCore
         {
             try
             {
-                StagioneDBController cStagione = new StagioneDBController(DBIntegrationTests.ConnectionString);
+                DBControllers.SerieA.StagioneDBController cStagione = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
@@ -2165,6 +2176,1238 @@ namespace MSUnitTestCore
                 int id = cRole.InsertRolePageFunction(idRole, 0, idFuncion);
                 //qui non dovrebe mai arrivare
                 Assert.AreEqual(0, idFuncion);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+        #endregion
+
+        #region DBControllers.SusyLague
+        [TestMethod]
+        public void InsertSusyLeagueStagione()
+        {
+            try
+            {
+
+                DBControllers.SusyLeague.StagioneDBController c = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+
+                Assert.AreNotEqual(0, id);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento doppio della stagione  susy league, venga restituito l'errore 53001 dal DB")]
+        public void InsertSusyLeagueStagione_Error_Duplicata()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController c = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = 0;
+                string nomeStagione = DataMock.FakeData.GetString(8, false, true, false, false);
+                id = c.InsertStagione(nomeStagione);
+                //questa istruzione deve generare l'errore
+                id = c.InsertStagione(nomeStagione);
+
+                Assert.AreNotEqual(0, id);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53001, ex.Code);
+                else
+                    throw;
+            }
+
+        }
+
+        [TestMethod]
+        public void InsertSusyCompetizione()
+        {
+            try
+            {
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+
+                Assert.AreNotEqual(0, idStagione);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+
+                Assert.AreNotEqual(0, idCompetizione);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento doppio della competizione  susy league, venga restituito l'errore 53002 dal DB")]
+        public void InsertSusyCompetizione_Error_Duplicata()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+
+                Assert.AreNotEqual(0, idStagione);
+
+                string descrizione = DataMock.FakeData.GetString(8, false, true, false, false);
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(descrizione, idStagione);
+
+                Assert.AreNotEqual(0, idCompetizione);
+
+                //questa istruzione genera l'eccezione 
+                idCompetizione = cCompetizione.InsertCompetizione(descrizione, idStagione);
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idCompetizione);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53002, ex.Code);
+                else
+                    throw;
+            }
+
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento competizione con stagione inesistente, venga restituito l'errore 547 dal DB")]
+        public void InsertSusyCompetizione_Error_StagioneNOTFOUND()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+
+                Assert.AreNotEqual(0, idStagione);
+
+                string descrizione = DataMock.FakeData.GetString(8, false, true, false, false);
+                //questa istruzione genera l'eccezione 
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(descrizione, 0);
+                //qui non dovrebbe mai passare
+                Assert.AreNotEqual(0, idCompetizione);
+
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+
+        }
+
+        [TestMethod]
+        public void InsertSusyLeagueGiornata()
+        {
+
+            try
+            {
+
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornataSerieA = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+
+                Assert.AreNotEqual(0, idGiornataSerieA);
+
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+
+                Assert.AreNotEqual(0, idStagione);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornata = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornataSerieA, idCompetizione);
+                Assert.AreNotEqual(0, idGiornata);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento doppio della giornata nella competizione susy league, venga restituito l'errore 53003 dal DB")]
+        public void InsertSusyLeagueGiornata_Error_Duplicata()
+        {
+            try
+            {
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornataSerieA = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+
+                Assert.AreNotEqual(0, idGiornataSerieA);
+
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+
+                Assert.AreNotEqual(0, idStagione);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornata = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornataSerieA, idCompetizione);
+
+                //questa istruzione genera l'eccezione 
+                idGiornata = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornataSerieA, idCompetizione);
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idGiornata);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53003, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento della giornata nella competizione susy league con stagione inesistente, venga restituito l'errore 547 dal DB")]
+        public void InsertSusyLeagueGiornata_Error_StagioneNOTFOUND()
+        {
+            try
+            {
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornataSerieA = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+
+                Assert.AreNotEqual(0, idGiornataSerieA);
+
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+
+                Assert.AreNotEqual(0, idStagione);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+
+                Assert.AreNotEqual(0, idCompetizione);
+
+                //questa istruzione genera l'eccezione 
+                int idGiornata = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), 0, idCompetizione);
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idGiornata);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento della giornata nella competizione susy league con competizione inesistente, venga restituito l'errore 547 dal DB")]
+        public void InsertSusyLeagueGiornata_Error_competizioneNOTFOUND()
+        {
+            try
+            {
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornataSerieA = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+
+                Assert.AreNotEqual(0, idGiornataSerieA);
+
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+
+                Assert.AreNotEqual(0, idStagione);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+
+                Assert.AreNotEqual(0, idCompetizione);
+
+                //questa istruzione genera l'eccezione 
+                int idGiornata = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornataSerieA, 0);
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idGiornata);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        public void InsertSusyLeagueSquadra()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idSquadra);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento di squadra duplicata nella stagione susy league, venga restituito l'errore 53007 dal DB")]
+        public void InsertSusyLeagueSquadra_Error_SquadraDuplicata()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                string descrizione = DataMock.FakeData.GetString(8, false, true, false, false);
+                int idSquadra = cSquadra.InsertSquadra(descrizione, idStagione, idUser);
+                Assert.AreNotEqual(0, idSquadra);
+
+                //questa istruzione genera l'eccezione 
+                idSquadra = cSquadra.InsertSquadra(descrizione, idStagione, idUser);
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idSquadra);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53007, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento di squadra doppia per l'utente, venga restituito l'errore 53008 dal DB")]
+        public void InsertSusyLeagueSquadra_Error_SquadraDoppia()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                string descrizione = DataMock.FakeData.GetString(8, false, true, false, false);
+                int idSquadra = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idSquadra);
+
+                //questa istruzione genera l'eccezione 
+                idSquadra = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idSquadra);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53008, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento di squadra con stagione inesistente , venga restituito l'errore 547 dal DB")]
+        public void InsertSusyLeagueSquadra_Error_StagioneNOTFOUND()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                string descrizione = DataMock.FakeData.GetString(8, false, true, false, false);
+                //questa istruzione genera l'eccezione 
+                int idSquadra = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), 0, idUser);
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idSquadra);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento di squadra con User inesistente , venga restituito l'errore 547 dal DB")]
+        public void InsertSusyLeagueSquadra_Error_UserNOTFOUND()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                string descrizione = DataMock.FakeData.GetString(8, false, true, false, false);
+                //questa istruzione genera l'eccezione 
+                int idSquadra = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, 0);
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idSquadra);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        public void InsertSusyLeagueIncontro()
+        {
+            try
+            {
+
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornata = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+
+                Assert.AreNotEqual(0, idGiornata);
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser1);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
+                Assert.AreNotEqual(0, idSquadra1);
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+
+                int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idSquadra2);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornataSL = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornata, idCompetizione);
+                Assert.AreNotEqual(0, idGiornataSL);
+
+                DBControllers.SusyLeague.IncontroDBController cIncontro = new DBControllers.SusyLeague.IncontroDBController(DBIntegrationTests.ConnectionString);
+                int idIncontro = cIncontro.InsertIncontro(idSquadra1, idSquadra2, idGiornataSL);
+                Assert.AreNotEqual(0, idIncontro);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento di incontro doppio , venga restituito l'errore 53004 dal DB")]
+        public void InsertSusyLeagueIncontro_Error_duplicato()
+        {
+            try
+            {
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornata = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+
+                Assert.AreNotEqual(0, idGiornata);
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser1);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
+                Assert.AreNotEqual(0, idSquadra1);
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+
+                int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idSquadra2);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornataSL = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornata, idCompetizione);
+                Assert.AreNotEqual(0, idGiornataSL);
+
+                DBControllers.SusyLeague.IncontroDBController cIncontro = new DBControllers.SusyLeague.IncontroDBController(DBIntegrationTests.ConnectionString);
+                int idIncontro = cIncontro.InsertIncontro(idSquadra1, idSquadra2, idGiornataSL);
+                Assert.AreNotEqual(0, idIncontro);
+
+                //questa istruzione genera l'eccezione 
+                idIncontro = cIncontro.InsertIncontro(idSquadra1, idSquadra2, idGiornataSL);
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idIncontro);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53004, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento di incontro con squadra1 not found , venga restituito l'errore 547 dal DB")]
+        public void InsertSusyLeagueIncontro_Error_Squadra1NOTFOUND()
+        {
+            try
+            {
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornata = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+
+                Assert.AreNotEqual(0, idGiornata);
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser1);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
+                Assert.AreNotEqual(0, idSquadra1);
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+
+                int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idSquadra2);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornataSL = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornata, idCompetizione);
+                Assert.AreNotEqual(0, idGiornataSL);
+
+                DBControllers.SusyLeague.IncontroDBController cIncontro = new DBControllers.SusyLeague.IncontroDBController(DBIntegrationTests.ConnectionString);
+                //questa istruzione genera l'eccezione 
+                int idIncontro = cIncontro.InsertIncontro(0, idSquadra2, idGiornataSL);
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idIncontro);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento di incontro con squadra2 not found , venga restituito l'errore 547 dal DB")]
+        public void InsertSusyLeagueIncontro_Error_Squadra2NOTFOUND()
+        {
+            try
+            {
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornata = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+
+                Assert.AreNotEqual(0, idGiornata);
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser1);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
+                Assert.AreNotEqual(0, idSquadra1);
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+
+                int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idSquadra2);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornataSL = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornata, idCompetizione);
+                Assert.AreNotEqual(0, idGiornataSL);
+
+                DBControllers.SusyLeague.IncontroDBController cIncontro = new DBControllers.SusyLeague.IncontroDBController(DBIntegrationTests.ConnectionString);
+                //questa istruzione genera l'eccezione 
+                int idIncontro = cIncontro.InsertIncontro(idSquadra1, 0, idGiornataSL);
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idIncontro);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento di incontro con gionrata susy league not found , venga restituito l'errore 547 dal DB")]
+        public void InsertSusyLeagueIncontro_Error_GiornataSLNOTFOUND()
+        {
+            try
+            {
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornata = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+
+                Assert.AreNotEqual(0, idGiornata);
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser1);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
+                Assert.AreNotEqual(0, idSquadra1);
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+
+                int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idSquadra2);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornataSL = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornata, idCompetizione);
+                Assert.AreNotEqual(0, idGiornataSL);
+
+                DBControllers.SusyLeague.IncontroDBController cIncontro = new DBControllers.SusyLeague.IncontroDBController(DBIntegrationTests.ConnectionString);
+                //questa istruzione genera l'eccezione 
+                int idIncontro = cIncontro.InsertIncontro(idSquadra1, idSquadra2, 0);
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idIncontro);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        public void UpdateSusyLeagueIncontroRisultato()
+        {
+            try
+            {
+
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornata = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+
+                Assert.AreNotEqual(0, idGiornata);
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser1);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
+                Assert.AreNotEqual(0, idSquadra1);
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+
+                int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idSquadra2);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornataSL = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornata, idCompetizione);
+                Assert.AreNotEqual(0, idGiornataSL);
+
+                DBControllers.SusyLeague.IncontroDBController cIncontro = new DBControllers.SusyLeague.IncontroDBController(DBIntegrationTests.ConnectionString);
+                int idIncontro = cIncontro.InsertIncontro(idSquadra1, idSquadra2, idGiornataSL);
+                Assert.AreNotEqual(0, idIncontro);
+
+                cIncontro.UpdateRisultato(idIncontro, DataMock.FakeData.GetInteger(0, 10), DataMock.FakeData.GetInteger(0, 10), DataMock.FakeData.GetDouble(2, 1), DataMock.FakeData.GetDouble(2, 1));
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        [TestMethod]
+        [Description("controlla che in caso di inserimento di update dell'incontro per inseire il risultato, se l'incontro non viene trovato, venga restituito l'errore 53006 dal DB")]
+        public void UpdateSusyLeagueIncontroRisultato_Error_NOTFOUND()
+        {
+            try
+            {
+
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornata = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+
+                Assert.AreNotEqual(0, idGiornata);
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser1);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
+                Assert.AreNotEqual(0, idSquadra1);
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+
+                int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idSquadra2);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornataSL = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornata, idCompetizione);
+                Assert.AreNotEqual(0, idGiornataSL);
+
+                DBControllers.SusyLeague.IncontroDBController cIncontro = new DBControllers.SusyLeague.IncontroDBController(DBIntegrationTests.ConnectionString);
+                int idIncontro = cIncontro.InsertIncontro(idSquadra1, idSquadra2, idGiornataSL);
+                Assert.AreNotEqual(0, idIncontro);
+                //questa istruzione genera l'eccezione 
+                cIncontro.UpdateRisultato(0, DataMock.FakeData.GetInteger(0, 10), DataMock.FakeData.GetInteger(0, 10), DataMock.FakeData.GetDouble(2, 1), DataMock.FakeData.GetDouble(2, 1));
+
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53006, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        public void InsertSusyLeagueIncontroGiocatoreSquadra()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idSquadra1);
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornata = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+                Assert.AreNotEqual(0, idGiornata);
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+
+                int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idSquadra2);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornataSL = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornata, idCompetizione);
+                Assert.AreNotEqual(0, idGiornataSL);
+
+                DBControllers.SusyLeague.IncontroDBController cIncontro = new DBControllers.SusyLeague.IncontroDBController(DBIntegrationTests.ConnectionString);
+                int idIncontro = cIncontro.InsertIncontro(idSquadra1, idSquadra2, idGiornataSL);
+                Assert.AreNotEqual(0, idIncontro);
+
+                int idFormazione = cIncontro.InsertGiocatoreInIncontroPerSquadra(idIncontro, idSquadra1, idGiocatore, DataMock.FakeData.GetInteger(1, 11));
+                Assert.AreNotEqual(0, idFormazione);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("inserisco un giocatore per un incontro per una squadra (ovvero parte della formazione), in caso di inserimento duplicato viene restituito l'errore 53005")]
+        public void InsertSusyLeagueIncontroGiocatoreSquadra_Error_Duplicato()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idSquadra1);
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornata = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+                Assert.AreNotEqual(0, idGiornata);
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+
+                int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idSquadra2);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornataSL = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornata, idCompetizione);
+                Assert.AreNotEqual(0, idGiornataSL);
+
+                DBControllers.SusyLeague.IncontroDBController cIncontro = new DBControllers.SusyLeague.IncontroDBController(DBIntegrationTests.ConnectionString);
+                int idIncontro = cIncontro.InsertIncontro(idSquadra1, idSquadra2, idGiornataSL);
+                Assert.AreNotEqual(0, idIncontro);
+
+                int idFormazione = cIncontro.InsertGiocatoreInIncontroPerSquadra(idIncontro, idSquadra1, idGiocatore, DataMock.FakeData.GetInteger(1, 11));
+                Assert.AreNotEqual(0, idFormazione);
+
+                //questa istruzione genera l'eccezione 
+                idFormazione = cIncontro.InsertGiocatoreInIncontroPerSquadra(idIncontro, idSquadra1, idGiocatore, DataMock.FakeData.GetInteger(1, 11));
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idFormazione);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53005, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("inserisco un giocatore per un incontro per una squadra (ovvero parte della formazione), verifico che in caso di Incontro NOT FOUND sia restituito l'errore 547")]
+        public void InsertSusyLeagueIncontroGiocatoreSquadra_Error_IncontroNOTFOUND()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idSquadra1);
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornata = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+                Assert.AreNotEqual(0, idGiornata);
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+
+                int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idSquadra2);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornataSL = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornata, idCompetizione);
+                Assert.AreNotEqual(0, idGiornataSL);
+
+                DBControllers.SusyLeague.IncontroDBController cIncontro = new DBControllers.SusyLeague.IncontroDBController(DBIntegrationTests.ConnectionString);
+                int idIncontro = cIncontro.InsertIncontro(idSquadra1, idSquadra2, idGiornataSL);
+                Assert.AreNotEqual(0, idIncontro);
+
+                //questa istruzione genera l'eccezione 
+                int idFormazione = cIncontro.InsertGiocatoreInIncontroPerSquadra(0, idSquadra1, idGiocatore, DataMock.FakeData.GetInteger(1, 11));
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idFormazione);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("inserisco un giocatore per un incontro per una squadra (ovvero parte della formazione), verifico che in caso di Giocatore NOT FOUND sia restituito l'errore 547")]
+        public void InsertSusyLeagueIncontroGiocatoreSquadra_Error_GiocatoreNOTFOUND()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idSquadra1);
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornata = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+                Assert.AreNotEqual(0, idGiornata);
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+
+                int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idSquadra2);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornataSL = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornata, idCompetizione);
+                Assert.AreNotEqual(0, idGiornataSL);
+
+                DBControllers.SusyLeague.IncontroDBController cIncontro = new DBControllers.SusyLeague.IncontroDBController(DBIntegrationTests.ConnectionString);
+                int idIncontro = cIncontro.InsertIncontro(idSquadra1, idSquadra2, idGiornataSL);
+                Assert.AreNotEqual(0, idIncontro);
+
+                //questa istruzione genera l'eccezione 
+                int idFormazione = cIncontro.InsertGiocatoreInIncontroPerSquadra(idIncontro, 0, idGiocatore, DataMock.FakeData.GetInteger(1, 11));
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idFormazione);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("inserisco un giocatore per un incontro per una squadra (ovvero parte della formazione), verifico che in caso di Squadra NOT FOUND sia restituito l'errore 547")]
+        public void InsertSusyLeagueIncontroGiocatoreSquadra_Error_SquadraNOTFOUND()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idSquadra1);
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                DBControllers.SerieA.StagioneDBController c = new DBControllers.SerieA.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int id = c.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, id);
+
+
+                DateTime giornataStartDate = DataMock.FakeData.GetDate(new DateTime(2019, 8, 21, 15, 00, 00), 0, 0);
+                DateTime giornataEndDate = DataMock.FakeData.GetDate(giornataStartDate, 0, 72);
+                int idGiornata = c.InsertGiornataInStagione(DataMock.FakeData.GetString(8, false, true, false, false),
+                    giornataStartDate,
+                    giornataEndDate,
+                    id);
+                Assert.AreNotEqual(0, idGiornata);
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+
+                int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idSquadra2);
+
+                DBControllers.SusyLeague.CompetizioneDBController cCompetizione = new DBControllers.SusyLeague.CompetizioneDBController(DBIntegrationTests.ConnectionString);
+                int idCompetizione = cCompetizione.InsertCompetizione(DataMock.FakeData.GetString(8, false, true, false, false), idStagione);
+                Assert.AreNotEqual(0, idCompetizione);
+
+                int idGiornataSL = cCompetizione.InsertGiornata(DataMock.FakeData.GetString(8, false, true, false, false), idGiornata, idCompetizione);
+                Assert.AreNotEqual(0, idGiornataSL);
+
+                DBControllers.SusyLeague.IncontroDBController cIncontro = new DBControllers.SusyLeague.IncontroDBController(DBIntegrationTests.ConnectionString);
+                int idIncontro = cIncontro.InsertIncontro(idSquadra1, idSquadra2, idGiornataSL);
+                Assert.AreNotEqual(0, idIncontro);
+
+                //questa istruzione genera l'eccezione 
+                int idFormazione = cIncontro.InsertGiocatoreInIncontroPerSquadra(idIncontro, idSquadra1, 0, DataMock.FakeData.GetInteger(1, 11));
+                //qui non dovrebbe mai passare
+                Assert.AreEqual(0, idFormazione);
             }
             catch (SusyLeagueDBException ex)
             {
