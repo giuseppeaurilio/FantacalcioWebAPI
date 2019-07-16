@@ -36,6 +36,7 @@ namespace MSUnitTestCore
 
         public static bool ManageError = true;
 
+        public static int iCounter { get; private set; }
         [ClassInitialize]
         public static void SetUp(TestContext testContext)
         {
@@ -95,6 +96,10 @@ namespace MSUnitTestCore
             int id2 = c.InsertSquadra("SVINCOLATO");
             int id3 = c.InsertSquadra("SERIE ESTERA");
             /*FINE INIT DATI*/
+
+            /*init variabili globali di util*/
+            iCounter = 0;
+            /*FINE init variabili globali di util*/
         }
 
         //[ClassCleanup]
@@ -3413,6 +3418,488 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else
+                    throw;
+            }
+        }
+        #endregion
+
+        #region DBControllers.Mercato
+        [TestMethod]
+        public void InsertMercatoFase()
+        {
+            try
+            {
+
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int id = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+
+                Assert.AreNotEqual(0, id);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che non sia possibile inserire due fasi di mercato con giorni sovrapposti. In questo caso deve essere gestito l'errore 53009 del DB")]
+        public void InsertMercatoFase_ERROR_FasiSovrapposte()
+        {
+            try
+            {
+                DateTime dataInizio = DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++));
+                DateTime dataFine = DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++));
+
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int id = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    dataInizio, dataFine);
+                //queste istruzione genera l'errore
+                id = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    dataInizio, dataFine);
+                //qui non dovrebbe mai arrivare
+                Assert.AreNotEqual(0, id);
+
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53009, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        public void UpdateMercatoFase()
+        {
+            try
+            {
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int id = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                   DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+
+                Assert.AreNotEqual(0, id);
+
+                cMercato.UpdateMercatoFase(id, DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla chein caso di aggiornamento di una fase non esistente, deve essere restituito  l'errore 53010 del DB")]
+        public void UpdateMercatoFase_ERROR_NOTFOUND()
+        {
+            try
+            {
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int id = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+
+                Assert.AreNotEqual(0, id);
+
+                cMercato.UpdateMercatoFase(0, DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53010, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che non sia possibile avere due fasi di mercato con giorni sovrapposti. In questo caso deve essere gestito l'errore 53009 del DB")]
+        public void UpdateMercatoFase_ERROR_FasiSovrapposte()
+        {
+            try
+            {
+                DateTime dataInizioFase1 = DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++));
+                DateTime dataFineFase1 = DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++));
+                DateTime dataInizioFase2 = DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++));
+                DateTime dataFineFase2 = DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++));
+
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int id = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                  dataInizioFase1, dataFineFase1);
+
+                Assert.AreNotEqual(0, id);
+
+                int id2 = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                   dataInizioFase2, dataFineFase2);
+
+
+
+                //queste istruzione genera l'errore
+                cMercato.UpdateMercatoFase(id2, DataMock.FakeData.GetString(10, false, true, false, false),
+                     dataInizioFase1, dataFineFase1);
+                //qui non dovrebbe mai arrivare
+                Assert.AreNotEqual(0, id);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53009, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        public void InsertMercatoTransazione()
+        {
+            try
+            {
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int idFase = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+
+                Assert.AreNotEqual(0, idFase);
+
+                int idTransazione = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        public void InsertGiocatoreInFantasquadra()
+        {
+            try
+            {
+
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idFantasquadra = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idFantasquadra);
+
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+
+                Assert.AreNotEqual(0, idGiocatore);
+
+                DBControllers.SusyLeague.StagioneDBController cSLStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idSLStagione = cSLStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idSLStagione);
+
+
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int idFase = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+                Assert.AreNotEqual(0, idFase);
+
+                int idTransazione = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione);
+
+                int idGiocatoreInfantasquadra = cSLSquadra.InsertGiocatoreInFantasquadra(idGiocatore, idFantasquadra, idSLStagione, idTransazione, DateTime.Now);
+                Assert.AreNotEqual(0, idGiocatoreInfantasquadra);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che non sia possibile inserire in una fantasquadra un giocatore che ha una associazione attiva con un'altra fantasquadra. In questo caso deve essere gestito l'errore 53014 del DB")]
+        public void InsertGiocatoreInFantasquadra_ERROR_GiocatoreNonLibero()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser1);
+
+                DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idFantasquadra = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
+                Assert.AreNotEqual(0, idFantasquadra);
+
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+
+                Assert.AreNotEqual(0, idGiocatore);
+
+                DBControllers.SusyLeague.StagioneDBController cSLStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idSLStagione = cSLStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idSLStagione);
+
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int idFase = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+                Assert.AreNotEqual(0, idFase);
+
+                int idTransazione = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione);
+
+                int idGiocatoreInfantasquadra = cSLSquadra.InsertGiocatoreInFantasquadra(idGiocatore, idFantasquadra, idSLStagione, idTransazione, DateTime.Now);
+                Assert.AreNotEqual(0, idGiocatoreInfantasquadra);
+
+
+
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser2);
+                int idFantasquadra2 = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idFantasquadra2);
+
+                //queste istruzione genera l'errore
+                int idGiocatoreInfantasquadra2 = cSLSquadra.InsertGiocatoreInFantasquadra(idGiocatore, idFantasquadra2, idSLStagione, idTransazione, DateTime.Now);
+                //qui non dovrebbe mai arrivare
+                Assert.AreNotEqual(0, idGiocatoreInfantasquadra2);
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53014, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        public void DeleteGiocatoreDaFantasquadra()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idFantasquadra = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idFantasquadra);
+
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+
+                Assert.AreNotEqual(0, idGiocatore);
+
+                DBControllers.SusyLeague.StagioneDBController cSLStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idSLStagione = cSLStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+
+                Assert.AreNotEqual(0, idSLStagione);
+
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int idFase = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+                Assert.AreNotEqual(0, idFase);
+
+                int idTransazione = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione);
+
+                int idGiocatoreInfantasquadra = cSLSquadra.InsertGiocatoreInFantasquadra(idGiocatore, idFantasquadra, idSLStagione, idTransazione, DateTime.Now); ;
+                Assert.AreNotEqual(0, idGiocatoreInfantasquadra);
+
+                int idTransazione2 = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione);
+
+                cSLSquadra.DeleteGiocatoreDaFantasquadra(idGiocatore, idFantasquadra, idSLStagione, idTransazione2, DateTime.Now.AddMinutes(10));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che non sia possibile chiudere una associazine non attiva tra un giocatore ed una fantasquadra. In questo caso deve essere gestito l'errore 53015 del DB")]
+        public void DeleteGiocatoreDaFantasquadra_ERROR_NOTFOUND()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idFantasquadra = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idFantasquadra);
+
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+
+                Assert.AreNotEqual(0, idGiocatore);
+
+                DBControllers.SusyLeague.StagioneDBController cSLStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idSLStagione = cSLStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int idFase = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+                Assert.AreNotEqual(0, idFase);
+
+                int idTransazione = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione);
+
+                Assert.AreNotEqual(0, idSLStagione);
+                //queste istruzione genera l'errore
+                cSLSquadra.DeleteGiocatoreDaFantasquadra(idGiocatore, idFantasquadra, idSLStagione, idTransazione, DateTime.Now.AddMinutes(10));
+                //qui non dovrebbe mai arrivare
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53015, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        public void InsertMercatoTransazioneAcquistoGiocatoreLibero()
+        {
+            try
+            {
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idFantasquadra = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idFantasquadra);
+
+
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+
+                Assert.AreNotEqual(0, idGiocatore);
+
+                DBControllers.SusyLeague.StagioneDBController cSLStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idSLStagione = cSLStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idSLStagione);
+
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int idFase = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+                Assert.AreNotEqual(0, idFase);
+
+                int idTransazione = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione);
+
+                int idFantaacquisto = cMercato.InsertAcquisto(idGiocatore, 0, idFantasquadra, DataMock.FakeData.GetInteger(0, 100), idTransazione);
+
+
+                int idGiocatoreInfantasquadra = cSLSquadra.InsertGiocatoreInFantasquadra(idGiocatore, idFantasquadra, idSLStagione, idTransazione, DateTime.Now);
+                Assert.AreNotEqual(0, idGiocatoreInfantasquadra);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        public void InsertMercatoTransazioneAcquistoGiocatoreDaAltraFantasquadra()
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        public void InsertMercatoTransazioneAcquistoSoloCrediti()
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che non sia possibile inserire transazione per l\'acquisto di un giocatore liber, quando il giocatore non è libero. In questo caso deve essere gestito l'errore 53011 del DB")]
+        public void InsertMercatoTransazioneAcquistoGiocatoreLibero_ERROR_GiocatoreNonLibero()
+        {
+            try
+            {
+
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53011, ex.Code);
+                else
+                    throw;
+            }
+        }
+
+        [TestMethod]
+        [Description("controlla che non sia possibile trasferire un giocatore tra due squadre se questo nn è tra i giocatori della squadra di origine. In questo caso deve essere gestito l'errore 53012 del DB")]
+        public void InsertMercatoTransazioneAcquistoGiocatoreDaAltraFantasquadra_ERROR_GiocatoreNOTFOUND()
+        {
+            try
+            {
+
+            }
+            catch (SusyLeagueDBException ex)
+            {
+                if (ManageError)
+                    Assert.AreEqual(53012, ex.Code);
                 else
                     throw;
             }
