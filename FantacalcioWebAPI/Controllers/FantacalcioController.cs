@@ -1,4 +1,5 @@
 ﻿using FantacalcioWebAPI.Models;
+using JwtTokenMiddleware;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace FantacalcioWebAPI.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(UserAuthorizationFilter))]
         public IEnumerable<Fantacalcio> GetAll()
         {
             return _context.Fantacalcio;
