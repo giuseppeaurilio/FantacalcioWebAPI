@@ -12,5 +12,14 @@ namespace Models.SerieA
         public DateTime DataFine { get; set; }
 
         public int StagioneId { get; set; }
+
+        public Giornata(int id, string descrizione, DateTime dataInizio, DateTime dataFine, int stagioneId)
+        {
+            this.Id = id;
+            this.Descrizione = descrizione;
+            this.DataInizio = dataInizio;
+            this.DataFine = dataFine;
+            this.StagioneId = stagioneId;
+        }
     }
 }

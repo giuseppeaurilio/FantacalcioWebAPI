@@ -83,7 +83,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Controllers\Controllers.csproj">
+    <ProjectReference Include="..\Controllers\DBControllers.csproj">
       <Project>{64897a6f-31fd-4f64-b516-c28b326204db}</Project>
       <Name>Controllers</Name>
     </ProjectReference>

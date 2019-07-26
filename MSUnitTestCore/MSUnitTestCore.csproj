@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BLTest.cs" />
     <Compile Remove="DBIntegrationTestBase.cs" />
   </ItemGroup>
 

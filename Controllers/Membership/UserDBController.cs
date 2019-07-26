@@ -14,7 +14,7 @@ namespace DBControllers.Membership
         {
         }
 
-        public int InsertUser(string username, string password)
+        public int InsertUser(string username)
         {
             int ret = 0;
             using (var connection = new SqlConnection(this.connection))
@@ -22,7 +22,7 @@ namespace DBControllers.Membership
                 var sql = "[membership].[user_insert]";
                 var p = new DynamicParameters();
                 p.Add("@Username", username);
-                p.Add("@Password", password);
+                //p.Add("@Password", password);
 
                 p.Add("@Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 p.Add("@ErrorMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 4000);
@@ -42,58 +42,58 @@ namespace DBControllers.Membership
             return ret;
         }
 
-        public void SetPasswordTemporaneaUser(int id, string password)
-        {
+        //public void SetPasswordTemporaneaUser(int id, string password)
+        //{
 
-            using (var connection = new SqlConnection(this.connection))
-            {
-                var sql = "[membership].[user_password_settemporary]";
-                var p = new DynamicParameters();
-                p.Add("@Id", id);
+        //    using (var connection = new SqlConnection(this.connection))
+        //    {
+        //        var sql = "[membership].[user_password_settemporary]";
+        //        var p = new DynamicParameters();
+        //        p.Add("@Id", id);
 
-                p.Add("@Password", password);
+        //        p.Add("@Password", password);
 
-                p.Add("@ErrorMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 4000);
-                p.Add("@return_value", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-
-                int retVal = connection.Execute(sql, p, commandType: CommandType.StoredProcedure);
-                if (retVal != -1)
-                    throw new Exception("SP EXECUTION ERROR: " + sql);
-
-                int retDB = p.Get<int>("@return_value");
-                string Message = p.Get<string>("@ErrorMessage");
-                if (retDB != 0)
-                    throw new SusyLeagueDBException(retDB, Message, sql);
-            }
-
-        }
-
-        public void UpdatePasswordUser(int id, string password)
-        {
-
-            using (var connection = new SqlConnection(this.connection))
-            {
-                var sql = "[membership].[user_password_update]";
-                var p = new DynamicParameters();
-                p.Add("@Id", id);
-
-                p.Add("@Password", password);
-
-                p.Add("@ErrorMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 4000);
-                p.Add("@return_value", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+        //        p.Add("@ErrorMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 4000);
+        //        p.Add("@return_value", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
 
-                int retVal = connection.Execute(sql, p, commandType: CommandType.StoredProcedure);
-                if (retVal != -1)
-                    throw new Exception("SP EXECUTION ERROR: " + sql);
+        //        int retVal = connection.Execute(sql, p, commandType: CommandType.StoredProcedure);
+        //        if (retVal != -1)
+        //            throw new Exception("SP EXECUTION ERROR: " + sql);
 
-                int retDB = p.Get<int>("@return_value");
-                string Message = p.Get<string>("@ErrorMessage");
-                if (retDB != 0)
-                    throw new SusyLeagueDBException(retDB, Message, sql);
-            }
+        //        int retDB = p.Get<int>("@return_value");
+        //        string Message = p.Get<string>("@ErrorMessage");
+        //        if (retDB != 0)
+        //            throw new SusyLeagueDBException(retDB, Message, sql);
+        //    }
 
-        }
+        //}
+
+        //public void UpdatePasswordUser(int id, string password)
+        //{
+
+        //    using (var connection = new SqlConnection(this.connection))
+        //    {
+        //        var sql = "[membership].[user_password_update]";
+        //        var p = new DynamicParameters();
+        //        p.Add("@Id", id);
+
+        //        p.Add("@Password", password);
+
+        //        p.Add("@ErrorMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 4000);
+        //        p.Add("@return_value", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+
+
+        //        int retVal = connection.Execute(sql, p, commandType: CommandType.StoredProcedure);
+        //        if (retVal != -1)
+        //            throw new Exception("SP EXECUTION ERROR: " + sql);
+
+        //        int retDB = p.Get<int>("@return_value");
+        //        string Message = p.Get<string>("@ErrorMessage");
+        //        if (retDB != 0)
+        //            throw new SusyLeagueDBException(retDB, Message, sql);
+        //    }
+
+        //}
     }
 }

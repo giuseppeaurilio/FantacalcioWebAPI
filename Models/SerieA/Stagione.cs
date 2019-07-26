@@ -10,10 +10,10 @@ namespace Models.SerieA
         public int Id { get; set; }
         public string Descrizione { get; set; }
 
-        public Stagione(DataRow dr)
+        public Stagione(int id, string descrizione)
         {
-            this.Id = int.Parse(dr["Id"].ToString());
-            this.Descrizione = dr["Descrizione"].ToString();
+            this.Id = id;
+            this.Descrizione = descrizione;
         }
     }
 }

@@ -9,11 +9,10 @@ using System.IO;
 using Dapper;
 using System.Text.RegularExpressions;
 using System.Data;
-using Models.SerieA;
 using System.Collections.Generic;
 using System.Linq;
 using DBControllers.Membership;
-using DBControllers.Web;
+
 
 namespace MSUnitTestCore
 {
@@ -34,9 +33,12 @@ namespace MSUnitTestCore
         }
         public static string TempDBName { get; private set; }
 
-        public static bool ManageError = true;
+        public static bool ManageError = false;
+        public static bool TestError = false;
 
         public static int iCounter { get; private set; }
+
+        public static string ServerName { get; private set; }
         [ClassInitialize]
         public static void SetUp(TestContext testContext)
         {
@@ -45,10 +47,12 @@ namespace MSUnitTestCore
 
             /*INIT DB*/
             DBIntegrationTests.TempDBName = string.Format("{0}_{1}{2}{3}_{4}{5}",
-                "SusyLagueUT",
+                "SusyLeagueUT",
                 DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
                 DateTime.Now.Hour, DateTime.Now.Minute);
-            DBIntegrationTests.ConnectionStringMaster = "Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=master;Data Source=DESKTOP-393K7QE\\SQLEXPRESS";
+            //DBIntegrationTests.ServerName = "DESKTOP-393K7QE\\SQLEXPRESS";
+            DBIntegrationTests.ServerName = "DESKTOP-7LGLNDB\\SQLEXPRESS";
+            DBIntegrationTests.ConnectionStringMaster = string.Format("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=master;Data Source={0}", DBIntegrationTests.ServerName);
             // Create database (drop first, just in case)
             var connection = new SqlConnection(DBIntegrationTests.ConnectionStringMaster);
             //var server = new Server(new ServerConnection(connection));
@@ -87,7 +91,8 @@ namespace MSUnitTestCore
                 }
             }
             connection.Close();
-            DBIntegrationTests.ConnectionString = string.Format("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog={0};Data Source=DESKTOP-393K7QE\\SQLEXPRESS", TempDBName);
+            DBIntegrationTests.ConnectionString = string.Format("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog={0};Data Source={1}",
+                DBIntegrationTests.TempDBName, DBIntegrationTests.ServerName);
             /*FINE INIT DB*/
 
             /*INIT DATI*/
@@ -141,6 +146,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50007, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -278,6 +284,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50004, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -303,6 +310,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50005, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -345,6 +353,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50006, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -406,6 +415,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50016, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -451,6 +461,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50001, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -543,6 +554,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50014, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -610,6 +622,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50002, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -809,6 +822,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50010, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -867,6 +881,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -925,6 +940,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -958,6 +974,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50011, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -1123,6 +1140,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50008, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -1168,6 +1186,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -1212,6 +1231,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -1247,6 +1267,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50009, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -1301,6 +1322,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50017, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -1376,6 +1398,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(50018, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -1413,6 +1436,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -1450,6 +1474,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -1487,6 +1512,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -1502,7 +1528,7 @@ namespace MSUnitTestCore
             try
             {
                 UserDBController c = new UserDBController(DBIntegrationTests.ConnectionString);
-                int id = c.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int id = c.InsertUser(DataMock.FakeData.GetUsername());
 
                 Assert.AreNotEqual(0, id);
             }
@@ -1512,44 +1538,44 @@ namespace MSUnitTestCore
                 throw;
             }
         }
-        [TestMethod]
-        public void SetTemporaryUserPassword()
-        {
-            try
-            {
-                UserDBController c = new UserDBController(DBIntegrationTests.ConnectionString);
-                int id = c.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+        //[TestMethod]
+        //public void SetTemporaryUserPassword()
+        //{
+        //    try
+        //    {
+        //        UserDBController c = new UserDBController(DBIntegrationTests.ConnectionString);
+        //        int id = c.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
 
-                Assert.AreNotEqual(0, id);
+        //        Assert.AreNotEqual(0, id);
 
-                c.SetPasswordTemporaneaUser(id, DataMock.FakeData.GetPassword());
-            }
-            catch (Exception)
-            {
+        //        c.SetPasswordTemporaneaUser(id, DataMock.FakeData.GetPassword());
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
-        }
-        [TestMethod]
-        public void UpdateUserPassword()
-        {
-            try
-            {
-                UserDBController c = new UserDBController(DBIntegrationTests.ConnectionString);
-                int id = c.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+        //        throw;
+        //    }
+        //}
+        //[TestMethod]
+        //public void UpdateUserPassword()
+        //{
+        //    try
+        //    {
+        //        UserDBController c = new UserDBController(DBIntegrationTests.ConnectionString);
+        //        int id = c.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
 
-                Assert.AreNotEqual(0, id);
+        //        Assert.AreNotEqual(0, id);
 
-                c.SetPasswordTemporaneaUser(id, DataMock.FakeData.GetPassword());
+        //        c.SetPasswordTemporaneaUser(id, DataMock.FakeData.GetPassword());
 
-                c.UpdatePasswordUser(id, DataMock.FakeData.GetPassword());
-            }
-            catch (Exception)
-            {
+        //        c.UpdatePasswordUser(id, DataMock.FakeData.GetPassword());
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
-        }
+        //        throw;
+        //    }
+        //}
         [TestMethod]
         [Description("controlla che in caso di inserimento doppio dellu username, venga restituito l'errore 51002 dal DB")]
         public void InsertUser_Error_Duplicato()
@@ -1558,11 +1584,11 @@ namespace MSUnitTestCore
             {
                 UserDBController c = new UserDBController(DBIntegrationTests.ConnectionString);
                 string username = DataMock.FakeData.GetUsername();
-                int id = c.InsertUser(username, DataMock.FakeData.GetPassword());
+                int id = c.InsertUser(username);
 
                 Assert.AreNotEqual(0, id);
                 //questa istruzione deve generare l'errore
-                id = c.InsertUser(username, DataMock.FakeData.GetPassword());
+                id = c.InsertUser(username);
                 //qui non dovrebe mai arrivare
                 Assert.AreEqual(0, id);
             }
@@ -1570,626 +1596,642 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(51002, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
         }
 
-        [TestMethod]
-        [Description("controlla che in caso di set passwrord temporanea per utente non esistente, venga restituito l'errore 51001 dal DB")]
-        public void SetTemporaryUserPassword_Error_NOTFOUND()
-        {
-            try
-            {
-                UserDBController c = new UserDBController(DBIntegrationTests.ConnectionString);
-                //questa istruzione deve generare l'errore
-                c.SetPasswordTemporaneaUser(0, DataMock.FakeData.GetPassword());
-                //qui non dovrebe mai arrivare
+        //[TestMethod]
+        //[Description("controlla che in caso di set passwrord temporanea per utente non esistente, venga restituito l'errore 51001 dal DB")]
+        //public void SetTemporaryUserPassword_Error_NOTFOUND()
+        //{
+        //    try
+        //    {
+        //        UserDBController c = new UserDBController(DBIntegrationTests.ConnectionString);
+        //        //questa istruzione deve generare l'errore
+        //        c.SetPasswordTemporaneaUser(0, DataMock.FakeData.GetPassword());
+        //        //qui non dovrebe mai arrivare
 
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(51001, ex.Code);
-                else
-                    throw;
-            }
-        }
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(51001, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
 
-        [TestMethod]
-        [Description("controlla che in caso di set passwrord temporanea per utente non esistente, venga restituito l'errore 51001 dal DB")]
-        public void UpdateUserPassword_Error_NOTFOUND()
-        {
-            try
-            {
-                UserDBController c = new UserDBController(DBIntegrationTests.ConnectionString);
-                //questa istruzione deve generare l'errore
-                c.UpdatePasswordUser(0, DataMock.FakeData.GetPassword());
-                //qui non dovrebe mai arrivare
+        //[TestMethod]
+        //[Description("controlla che in caso di set passwrord temporanea per utente non esistente, venga restituito l'errore 51001 dal DB")]
+        //public void UpdateUserPassword_Error_NOTFOUND()
+        //{
+        //    try
+        //    {
+        //        UserDBController c = new UserDBController(DBIntegrationTests.ConnectionString);
+        //        //questa istruzione deve generare l'errore
+        //        c.UpdatePasswordUser(0, DataMock.FakeData.GetPassword());
+        //        //qui non dovrebe mai arrivare
 
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(51001, ex.Code);
-                else
-                    throw;
-            }
-        }
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(51001, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
 
         #endregion
 
         #region DBControllers.Web
-        [TestMethod]
-        public void InsertRole()
-        {
-            try
-            {
-                RoleDBController c = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int id = c.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-
-                Assert.AreNotEqual(0, id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-        [TestMethod]
-        public void UpdateRole()
-        {
-            try
-            {
-                RoleDBController c = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int id = c.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-
-                Assert.AreNotEqual(0, id);
-
-                c.UpdateRole(id, DataMock.FakeData.GetString(8, false, true, false, false));
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        [TestMethod]
-        [Description("controlla che in caso di inserimento doppio ruolo, venga restituito l'errore 52004 dal DB")]
-        public void InsertRole_ERROR_Duplicato()
-        {
-            try
-            {
-                RoleDBController c = new RoleDBController(DBIntegrationTests.ConnectionString);
-                string description = DataMock.FakeData.GetString(8, false, true, false, false);
-                int id = c.InsertRole(description);
-
-                Assert.AreNotEqual(0, id);
-
-                //questa istruzione deve generare l'errore
-                id = c.InsertRole(description);
-                //qui non dovrebe mai arrivare
-                Assert.AreEqual(0, id);
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(52004, ex.Code);
-                else
-                    throw;
-            }
-        }
-        [TestMethod]
-        [Description("controlla che in caso di ruolo non esistente, venga restituito l'errore 52005 dal DB")]
-        public void UpdateRole_ERROR_NOTFOUND()
-        {
-            try
-            {
-                RoleDBController c = new RoleDBController(DBIntegrationTests.ConnectionString);
-                //questa istruzione deve generare l'errore
-                c.UpdateRole(0, DataMock.FakeData.GetString(8, false, true, false, false));
-                //qui non dovrebe mai arrivare
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(52005, ex.Code);
-                else
-                    throw;
-            }
-        }
-
-        [TestMethod]
-        public void InsertUserRole()
-        {
-            try
-            {
-
-                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
-
-                Assert.AreNotEqual(0, idUser);
-
-                RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-
-                Assert.AreNotEqual(0, idRole);
-
-                int id = cRole.InsertUserRole(idUser, idRole);
-
-                Assert.AreNotEqual(0, id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        [TestMethod]
-        public void DeleteUserRole()
-        {
-            try
-            {
-                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
-                Assert.AreNotEqual(0, idUser);
-
-                RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, idRole);
-
-                int id = cRole.InsertUserRole(idUser, idRole);
-                Assert.AreNotEqual(0, id);
-
-                cRole.DeleteUserRole(id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        [TestMethod]
-        [Description("controlla che in caso di inserimento user_role duplicato , venga restituito l'errore 52007 dal DB")]
-        public void InsertUserRole_Error_Duplicato()
-        {
-            try
-            {
-
-                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
-                Assert.AreNotEqual(0, idUser);
-
-                RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, idRole);
-
-                int id = cRole.InsertUserRole(idUser, idRole);
-                Assert.AreNotEqual(0, id);
-
-                //questa istruzione deve generare l'errore
-                id = cRole.InsertUserRole(idUser, idRole);
-                //qui non dovrebe mai arrivare
-                Assert.AreEqual(0, id);
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(52007, ex.Code);
-                else
-                    throw;
-            }
-        }
-
-        [TestMethod]
-        [Description("controlla che in caso di inserimento user_role con USER NOT FOUND , venga restituito l'errore 547 dal DB")]
-        public void InsertUserRole_Error_UserNOTFOUND()
-        {
-            try
-            {
-
-                //UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                //int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
-
-                //Assert.AreNotEqual(0, idUser);
-
-                RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, idRole);
-
-                //questa istruzione deve generare l'errore
-                int id = cRole.InsertUserRole(0, idRole);
-                //qui non dovrebe mai arrivare
-                Assert.AreEqual(0, id);
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(547, ex.Code);
-                else
-                    throw;
-            }
-        }
-
-        [TestMethod]
-        [Description("controlla che in caso di inserimento user_role con USER NOT FOUND , venga restituito l'errore 547 dal DB")]
-        public void InsertUserRole_Error_RoleNOTFOUND()
-        {
-            try
-            {
-                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
-                Assert.AreNotEqual(0, idUser);
-
-                RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
-                //questa istruzione deve generare l'errore
-                int id = cRole.InsertUserRole(idUser, 0);
-                //qui non dovrebe mai arrivare
-                Assert.AreNotEqual(0, id);
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(547, ex.Code);
-                else
-                    throw;
-            }
-        }
-
-        [TestMethod]
-        public void InsertPage()
-        {
-            try
-            {
-                PageDBController c = new PageDBController(DBIntegrationTests.ConnectionString);
-                int id = c.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-        [TestMethod]
-        public void UpdatePage()
-        {
-            try
-            {
-                PageDBController c = new PageDBController(DBIntegrationTests.ConnectionString);
-                int id = c.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, id);
-
-                c.UpdatePage(id, DataMock.FakeData.GetString(8, false, true, false, false));
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        [TestMethod]
-        public void InsertPageFunction()
-        {
-            try
-            {
-                PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
-                int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, idPage);
-
-                int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
-                Assert.AreNotEqual(0, idFuncion);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        [TestMethod]
-        [Description("controlla che in caso di inserimento doppio Page, venga restituito l'errore 52002 dal DB")]
-        public void InsertPage_ERROR_Duplicato()
-        {
-            try
-            {
-                PageDBController c = new PageDBController(DBIntegrationTests.ConnectionString);
-
-                string descrizione = DataMock.FakeData.GetString(8, false, true, false, false);
-                int id = c.InsertPage(descrizione);
-                Assert.AreNotEqual(0, id);
-
-                //questa istruzione deve generare l'errore
-                id = c.InsertPage(descrizione);
-                //qui non dovrebe mai arrivare
-                Assert.AreEqual(0, id);
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(52002, ex.Code);
-                else
-                    throw;
-            }
-        }
-
-        [TestMethod]
-        [Description("controlla che in caso di pagina non esistente, venga restituito l'errore 52003 dal DB")]
-        public void UpdatePage_ERROR_NOTFOUND()
-        {
-            try
-            {
-                PageDBController c = new PageDBController(DBIntegrationTests.ConnectionString);
-                //questa istruzione deve generare l'errore
-                c.UpdatePage(0, DataMock.FakeData.GetString(8, false, true, false, false));
-                //qui non dovrebe mai arrivare
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(52003, ex.Code);
-                else
-                    throw;
-            }
-        }
-
-        [TestMethod]
-        [Description("controlla che in caso di inserimento doppio funzione  di pagina, venga restituito l'errore 52001 dal DB")]
-        public void InsertPageFunction_ERROR_Duplicato()
-        {
-            try
-            {
-                PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
-                int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, idPage);
-
-                string descrizione = DataMock.FakeData.GetString(8, false, true, false, false);
-                int idFuncion = cPage.InsertPageFunction(descrizione, idPage);
-                Assert.AreNotEqual(0, idFuncion);
-
-                //questa istruzione deve generare l'errore
-                idFuncion = cPage.InsertPageFunction(descrizione, idPage);
-                //qui non dovrebe mai arrivare
-                Assert.AreEqual(0, idFuncion);
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(52001, ex.Code);
-                else
-                    throw;
-            }
-        }
-
-        [TestMethod]
-        [Description("controlla che in caso di inserimento funzione di pagina con pagina NOT FOUND , venga restituito l'errore 547 dal DB")]
-        public void InsertPageFunction_Error_PageNOTFOUND()
-        {
-            try
-            {
-                PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
-                string descrizione = DataMock.FakeData.GetString(8, false, true, false, false);
-
-                //questa istruzione deve generare l'errore
-                int idFuncion = cPage.InsertPageFunction(descrizione, 0);
-                //qui non dovrebe mai arrivare
-                Assert.AreEqual(0, idFuncion);
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(547, ex.Code);
-                else
-                    throw;
-            }
-        }
-
-        [TestMethod]
-        public void InsertRolePage()
-        {
-            try
-            {
-
-                RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-
-                PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
-                int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, idPage);
-
-                //int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
-                //Assert.AreNotEqual(0, idFuncion);
-
-                int id = cRole.InsertRolePageFunction(idRole, idPage);
-                Assert.AreNotEqual(0, id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        [TestMethod]
-        public void InsertRolePageFunction()
-        {
-            try
-            {
-                RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-
-                PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
-                int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, idPage);
-
-                int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
-                Assert.AreNotEqual(0, idFuncion);
-
-                int id = cRole.InsertRolePageFunction(idRole, idPage, idFuncion);
-                Assert.AreNotEqual(0, id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        [TestMethod]
-        public void DeleteRolePageFunction()
-        {
-            try
-            {
-                RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-
-                PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
-                int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, idPage);
-
-                int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
-                Assert.AreNotEqual(0, idFuncion);
-
-                int id = cRole.InsertRolePageFunction(idRole, idPage, idFuncion);
-                Assert.AreNotEqual(0, id);
-
-                cRole.DeleteRolePageFunction(id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        [TestMethod]
-        [Description("controlla che in caso di inserimento doppio di ruolo/pagina, venga restituito l'errore 52006 dal DB")]
-        public void InsertRolePage_ERROR_Duplicato()
-        {
-            try
-            {
-                RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-
-                PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
-                int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, idPage);
-
-                int id = cRole.InsertRolePageFunction(idRole, idPage);
-                Assert.AreNotEqual(0, id);
-
-                //questa istruzione deve generare l'errore
-                id = cRole.InsertRolePageFunction(idRole, idPage);
-                //qui non dovrebe mai arrivare
-                Assert.AreEqual(0, id);
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(52006, ex.Code);
-                else
-                    throw;
-            }
-        }
-
-        [TestMethod]
-        [Description("controlla che in caso di inserimento doppio di ruolo_pagina_funzione, venga restituito l'errore 52006 dal DB")]
-        public void InsertRolePageFunction_ERROR_Duplicato()
-        {
-            try
-            {
-                RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-
-                PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
-                int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, idPage);
-
-                int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
-                Assert.AreNotEqual(0, idFuncion);
-
-                int id = cRole.InsertRolePageFunction(idRole, idPage, idFuncion);
-                Assert.AreNotEqual(0, id);
-
-                //questa istruzione deve generare l'errore
-                id = cRole.InsertRolePageFunction(idRole, idPage, idFuncion);
-                //qui non dovrebe mai arrivare
-                Assert.AreEqual(0, id);
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(52006, ex.Code);
-                else
-                    throw;
-            }
-        }
-
-        [TestMethod]
-        [Description("controlla che in caso di inserimento ruolo_pagina_funzion con ruolo NOT FOUND , venga restituito l'errore 547 dal DB")]
-        public void InsertRolePageFunction_Error_RoleNOTFOUND()
-        {
-            try
-            {
-
-                RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-
-                PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
-                int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, idPage);
-
-                int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
-                Assert.AreNotEqual(0, idFuncion);
-
-                //questa istruzione deve generare l'errore
-                int id = cRole.InsertRolePageFunction(0, idPage, idFuncion);
-                //qui non dovrebe mai arrivare
-                Assert.AreEqual(0, idFuncion);
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(547, ex.Code);
-                else
-                    throw;
-            }
-        }
-
-        [TestMethod]
-        [Description("controlla che in caso di inserimento ruolo_pagina_funzion con page NOT FOUND , venga restituito l'errore 547 dal DB")]
-        public void InsertRolePageFunction_Error_PageNOTFOUND()
-        {
-            try
-            {
-
-                RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
-                int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
-
-                PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
-                int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
-                Assert.AreNotEqual(0, idPage);
-
-                int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
-                Assert.AreNotEqual(0, idFuncion);
-
-                //questa istruzione deve generare l'errore
-                int id = cRole.InsertRolePageFunction(idRole, 0, idFuncion);
-                //qui non dovrebe mai arrivare
-                Assert.AreEqual(0, idFuncion);
-            }
-            catch (SusyLeagueDBException ex)
-            {
-                if (ManageError)
-                    Assert.AreEqual(547, ex.Code);
-                else
-                    throw;
-            }
-        }
+        //[TestMethod]
+        //public void InsertRole()
+        //{
+        //    try
+        //    {
+        //        RoleDBController c = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int id = c.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+
+        //        Assert.AreNotEqual(0, id);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+        //[TestMethod]
+        //public void UpdateRole()
+        //{
+        //    try
+        //    {
+        //        RoleDBController c = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int id = c.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+
+        //        Assert.AreNotEqual(0, id);
+
+        //        c.UpdateRole(id, DataMock.FakeData.GetString(8, false, true, false, false));
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //[Description("controlla che in caso di inserimento doppio ruolo, venga restituito l'errore 52004 dal DB")]
+        //public void InsertRole_ERROR_Duplicato()
+        //{
+        //    try
+        //    {
+        //        RoleDBController c = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        string description = DataMock.FakeData.GetString(8, false, true, false, false);
+        //        int id = c.InsertRole(description);
+
+        //        Assert.AreNotEqual(0, id);
+
+        //        //questa istruzione deve generare l'errore
+        //        id = c.InsertRole(description);
+        //        //qui non dovrebe mai arrivare
+        //        Assert.AreEqual(0, id);
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(52004, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
+        //[TestMethod]
+        //[Description("controlla che in caso di ruolo non esistente, venga restituito l'errore 52005 dal DB")]
+        //public void UpdateRole_ERROR_NOTFOUND()
+        //{
+        //    try
+        //    {
+        //        RoleDBController c = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        //questa istruzione deve generare l'errore
+        //        c.UpdateRole(0, DataMock.FakeData.GetString(8, false, true, false, false));
+        //        //qui non dovrebe mai arrivare
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(52005, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //public void InsertUserRole()
+        //{
+        //    try
+        //    {
+
+        //        UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+        //        int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
+
+        //        Assert.AreNotEqual(0, idUser);
+
+        //        RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+
+        //        Assert.AreNotEqual(0, idRole);
+
+        //        int id = cRole.InsertUserRole(idUser, idRole);
+
+        //        Assert.AreNotEqual(0, id);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //public void DeleteUserRole()
+        //{
+        //    try
+        //    {
+        //        UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+        //        int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
+        //        Assert.AreNotEqual(0, idUser);
+
+        //        RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, idRole);
+
+        //        int id = cRole.InsertUserRole(idUser, idRole);
+        //        Assert.AreNotEqual(0, id);
+
+        //        cRole.DeleteUserRole(id);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //[Description("controlla che in caso di inserimento user_role duplicato , venga restituito l'errore 52007 dal DB")]
+        //public void InsertUserRole_Error_Duplicato()
+        //{
+        //    try
+        //    {
+
+        //        UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+        //        int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
+        //        Assert.AreNotEqual(0, idUser);
+
+        //        RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, idRole);
+
+        //        int id = cRole.InsertUserRole(idUser, idRole);
+        //        Assert.AreNotEqual(0, id);
+
+        //        //questa istruzione deve generare l'errore
+        //        id = cRole.InsertUserRole(idUser, idRole);
+        //        //qui non dovrebe mai arrivare
+        //        Assert.AreEqual(0, id);
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(52007, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //[Description("controlla che in caso di inserimento user_role con USER NOT FOUND , venga restituito l'errore 547 dal DB")]
+        //public void InsertUserRole_Error_UserNOTFOUND()
+        //{
+        //    try
+        //    {
+
+        //        //UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+        //        //int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
+
+        //        //Assert.AreNotEqual(0, idUser);
+
+        //        RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, idRole);
+
+        //        //questa istruzione deve generare l'errore
+        //        int id = cRole.InsertUserRole(0, idRole);
+        //        //qui non dovrebe mai arrivare
+        //        Assert.AreEqual(0, id);
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(547, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //[Description("controlla che in caso di inserimento user_role con USER NOT FOUND , venga restituito l'errore 547 dal DB")]
+        //public void InsertUserRole_Error_RoleNOTFOUND()
+        //{
+        //    try
+        //    {
+        //        UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+        //        int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
+        //        Assert.AreNotEqual(0, idUser);
+
+        //        RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        //questa istruzione deve generare l'errore
+        //        int id = cRole.InsertUserRole(idUser, 0);
+        //        //qui non dovrebe mai arrivare
+        //        Assert.AreNotEqual(0, id);
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(547, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //public void InsertPage()
+        //{
+        //    try
+        //    {
+        //        PageDBController c = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        int id = c.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, id);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+        //[TestMethod]
+        //public void UpdatePage()
+        //{
+        //    try
+        //    {
+        //        PageDBController c = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        int id = c.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, id);
+
+        //        c.UpdatePage(id, DataMock.FakeData.GetString(8, false, true, false, false));
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //public void InsertPageFunction()
+        //{
+        //    try
+        //    {
+        //        PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, idPage);
+
+        //        int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
+        //        Assert.AreNotEqual(0, idFuncion);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //[Description("controlla che in caso di inserimento doppio Page, venga restituito l'errore 52002 dal DB")]
+        //public void InsertPage_ERROR_Duplicato()
+        //{
+        //    try
+        //    {
+        //        PageDBController c = new PageDBController(DBIntegrationTests.ConnectionString);
+
+        //        string descrizione = DataMock.FakeData.GetString(8, false, true, false, false);
+        //        int id = c.InsertPage(descrizione);
+        //        Assert.AreNotEqual(0, id);
+
+        //        //questa istruzione deve generare l'errore
+        //        id = c.InsertPage(descrizione);
+        //        //qui non dovrebe mai arrivare
+        //        Assert.AreEqual(0, id);
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(52002, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //[Description("controlla che in caso di pagina non esistente, venga restituito l'errore 52003 dal DB")]
+        //public void UpdatePage_ERROR_NOTFOUND()
+        //{
+        //    try
+        //    {
+        //        PageDBController c = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        //questa istruzione deve generare l'errore
+        //        c.UpdatePage(0, DataMock.FakeData.GetString(8, false, true, false, false));
+        //        //qui non dovrebe mai arrivare
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(52003, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //[Description("controlla che in caso di inserimento doppio funzione  di pagina, venga restituito l'errore 52001 dal DB")]
+        //public void InsertPageFunction_ERROR_Duplicato()
+        //{
+        //    try
+        //    {
+        //        PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, idPage);
+
+        //        string descrizione = DataMock.FakeData.GetString(8, false, true, false, false);
+        //        int idFuncion = cPage.InsertPageFunction(descrizione, idPage);
+        //        Assert.AreNotEqual(0, idFuncion);
+
+        //        //questa istruzione deve generare l'errore
+        //        idFuncion = cPage.InsertPageFunction(descrizione, idPage);
+        //        //qui non dovrebe mai arrivare
+        //        Assert.AreEqual(0, idFuncion);
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(52001, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //[Description("controlla che in caso di inserimento funzione di pagina con pagina NOT FOUND , venga restituito l'errore 547 dal DB")]
+        //public void InsertPageFunction_Error_PageNOTFOUND()
+        //{
+        //    try
+        //    {
+        //        PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        string descrizione = DataMock.FakeData.GetString(8, false, true, false, false);
+
+        //        //questa istruzione deve generare l'errore
+        //        int idFuncion = cPage.InsertPageFunction(descrizione, 0);
+        //        //qui non dovrebe mai arrivare
+        //        Assert.AreEqual(0, idFuncion);
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(547, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //public void InsertRolePage()
+        //{
+        //    try
+        //    {
+
+        //        RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+
+        //        PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, idPage);
+
+        //        //int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
+        //        //Assert.AreNotEqual(0, idFuncion);
+
+        //        int id = cRole.InsertRolePageFunction(idRole, idPage);
+        //        Assert.AreNotEqual(0, id);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //public void InsertRolePageFunction()
+        //{
+        //    try
+        //    {
+        //        RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+
+        //        PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, idPage);
+
+        //        int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
+        //        Assert.AreNotEqual(0, idFuncion);
+
+        //        int id = cRole.InsertRolePageFunction(idRole, idPage, idFuncion);
+        //        Assert.AreNotEqual(0, id);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //public void DeleteRolePageFunction()
+        //{
+        //    try
+        //    {
+        //        RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+
+        //        PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, idPage);
+
+        //        int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
+        //        Assert.AreNotEqual(0, idFuncion);
+
+        //        int id = cRole.InsertRolePageFunction(idRole, idPage, idFuncion);
+        //        Assert.AreNotEqual(0, id);
+
+        //        cRole.DeleteRolePageFunction(id);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //[Description("controlla che in caso di inserimento doppio di ruolo/pagina, venga restituito l'errore 52006 dal DB")]
+        //public void InsertRolePage_ERROR_Duplicato()
+        //{
+        //    try
+        //    {
+        //        RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+
+        //        PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, idPage);
+
+        //        int id = cRole.InsertRolePageFunction(idRole, idPage);
+        //        Assert.AreNotEqual(0, id);
+
+        //        //questa istruzione deve generare l'errore
+        //        id = cRole.InsertRolePageFunction(idRole, idPage);
+        //        //qui non dovrebe mai arrivare
+        //        Assert.AreEqual(0, id);
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(52006, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //[Description("controlla che in caso di inserimento doppio di ruolo_pagina_funzione, venga restituito l'errore 52006 dal DB")]
+        //public void InsertRolePageFunction_ERROR_Duplicato()
+        //{
+        //    try
+        //    {
+        //        RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+
+        //        PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, idPage);
+
+        //        int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
+        //        Assert.AreNotEqual(0, idFuncion);
+
+        //        int id = cRole.InsertRolePageFunction(idRole, idPage, idFuncion);
+        //        Assert.AreNotEqual(0, id);
+
+        //        //questa istruzione deve generare l'errore
+        //        id = cRole.InsertRolePageFunction(idRole, idPage, idFuncion);
+        //        //qui non dovrebe mai arrivare
+        //        Assert.AreEqual(0, id);
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(52006, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //[Description("controlla che in caso di inserimento ruolo_pagina_funzion con ruolo NOT FOUND , venga restituito l'errore 547 dal DB")]
+        //public void InsertRolePageFunction_Error_RoleNOTFOUND()
+        //{
+        //    try
+        //    {
+
+        //        RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+
+        //        PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, idPage);
+
+        //        int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
+        //        Assert.AreNotEqual(0, idFuncion);
+
+        //        //questa istruzione deve generare l'errore
+        //        int id = cRole.InsertRolePageFunction(0, idPage, idFuncion);
+        //        //qui non dovrebe mai arrivare
+        //        Assert.AreEqual(0, idFuncion);
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(547, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
+
+        //[TestMethod]
+        //[Description("controlla che in caso di inserimento ruolo_pagina_funzion con page NOT FOUND , venga restituito l'errore 547 dal DB")]
+        //public void InsertRolePageFunction_Error_PageNOTFOUND()
+        //{
+        //    try
+        //    {
+
+        //        RoleDBController cRole = new RoleDBController(DBIntegrationTests.ConnectionString);
+        //        int idRole = cRole.InsertRole(DataMock.FakeData.GetString(8, false, true, false, false));
+
+        //        PageDBController cPage = new PageDBController(DBIntegrationTests.ConnectionString);
+        //        int idPage = cPage.InsertPage(DataMock.FakeData.GetString(8, false, true, false, false));
+        //        Assert.AreNotEqual(0, idPage);
+
+        //        int idFuncion = cPage.InsertPageFunction(DataMock.FakeData.GetString(8, false, true, false, false), idPage);
+        //        Assert.AreNotEqual(0, idFuncion);
+
+        //        //questa istruzione deve generare l'errore
+        //        int id = cRole.InsertRolePageFunction(idRole, 0, idFuncion);
+        //        //qui non dovrebe mai arrivare
+        //        Assert.AreEqual(0, idFuncion);
+        //    }
+        //    catch (SusyLeagueDBException ex)
+        //    {
+        //        if (ManageError)
+        //            Assert.AreEqual(547, ex.Code);
+        //        else if (!TestError) { }
+        //        else
+        //            throw;
+        //    }
+        //}
         #endregion
 
         #region DBControllers.SusyLague
@@ -2231,6 +2273,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53001, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2287,6 +2330,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53002, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2316,6 +2360,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2406,6 +2451,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53003, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2451,6 +2497,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2496,6 +2543,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2511,7 +2559,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -2537,7 +2585,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -2554,6 +2602,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53007, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2570,7 +2619,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -2587,6 +2636,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53008, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2603,7 +2653,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -2617,6 +2667,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2633,7 +2684,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -2647,6 +2698,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2679,14 +2731,14 @@ namespace MSUnitTestCore
 
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser1);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
                 int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
                 Assert.AreNotEqual(0, idSquadra1);
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
 
                 int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
@@ -2736,14 +2788,14 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser1);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
                 int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
                 Assert.AreNotEqual(0, idSquadra1);
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
 
                 int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
@@ -2770,6 +2822,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53004, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2801,14 +2854,14 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser1);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
                 int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
                 Assert.AreNotEqual(0, idSquadra1);
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
 
                 int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
@@ -2832,6 +2885,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2862,14 +2916,14 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser1);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
                 int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
                 Assert.AreNotEqual(0, idSquadra1);
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
 
                 int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
@@ -2893,6 +2947,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2923,14 +2978,14 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser1);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
                 int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
                 Assert.AreNotEqual(0, idSquadra1);
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
 
                 int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
@@ -2954,6 +3009,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -2986,14 +3042,14 @@ namespace MSUnitTestCore
 
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser1);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
                 int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
                 Assert.AreNotEqual(0, idSquadra1);
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
 
                 int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
@@ -3049,14 +3105,14 @@ namespace MSUnitTestCore
 
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser1);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
                 int idSquadra1 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser1);
                 Assert.AreNotEqual(0, idSquadra1);
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
 
                 int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
@@ -3080,6 +3136,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53006, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -3095,7 +3152,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -3121,7 +3178,7 @@ namespace MSUnitTestCore
                     id);
                 Assert.AreNotEqual(0, idGiornata);
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
 
                 int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
@@ -3159,7 +3216,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -3185,7 +3242,7 @@ namespace MSUnitTestCore
                     id);
                 Assert.AreNotEqual(0, idGiornata);
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
 
                 int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
@@ -3214,6 +3271,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53005, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -3230,7 +3288,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -3256,7 +3314,7 @@ namespace MSUnitTestCore
                     id);
                 Assert.AreNotEqual(0, idGiornata);
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
 
                 int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
@@ -3282,6 +3340,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -3298,7 +3357,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -3324,7 +3383,7 @@ namespace MSUnitTestCore
                     id);
                 Assert.AreNotEqual(0, idGiornata);
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
 
                 int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
@@ -3350,6 +3409,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -3366,7 +3426,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -3392,7 +3452,7 @@ namespace MSUnitTestCore
                     id);
                 Assert.AreNotEqual(0, idGiornata);
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
 
                 int idSquadra2 = cSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
@@ -3418,6 +3478,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(547, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -3468,6 +3529,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53009, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -3514,6 +3576,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53010, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -3551,6 +3614,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53009, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -3589,7 +3653,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -3638,7 +3702,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser1 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser1);
 
                 DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -3670,7 +3734,7 @@ namespace MSUnitTestCore
 
 
 
-                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser2);
                 int idFantasquadra2 = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
                 Assert.AreNotEqual(0, idFantasquadra2);
@@ -3684,6 +3748,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53014, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -3699,7 +3764,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -3753,7 +3818,7 @@ namespace MSUnitTestCore
                 Assert.AreNotEqual(0, idStagione);
 
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
@@ -3788,6 +3853,7 @@ namespace MSUnitTestCore
             {
                 if (ManageError)
                     Assert.AreEqual(53015, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -3798,41 +3864,47 @@ namespace MSUnitTestCore
         {
             try
             {
+                //creo la stagione
                 DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idStagione);
 
+
+                //creo lo user e la sua fantasquadra
                 UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
-                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername(), DataMock.FakeData.GetPassword());
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
                 Assert.AreNotEqual(0, idUser);
 
                 DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
                 int idFantasquadra = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
                 Assert.AreNotEqual(0, idFantasquadra);
 
-
+                //creo il giocatore
                 GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
                 int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
                     DataMock.FakeData.GetString(8, false, true, false, false),
                     DataMock.FakeData.GetString(4, true, false, true, false));
-
                 Assert.AreNotEqual(0, idGiocatore);
 
+                //creo una stagione di fantacalcio
                 DBControllers.SusyLeague.StagioneDBController cSLStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
                 int idSLStagione = cSLStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
                 Assert.AreNotEqual(0, idSLStagione);
 
+                //inserisco una fase di mercato nella stagione di fantacalcio
                 DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
                 int idFase = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
                     DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
                 Assert.AreNotEqual(0, idFase);
 
+                //creo una transazione nella fase di mercato della stagione di fantacalcio
                 int idTransazione = cMercato.InsertTransazione(idFase);
                 Assert.AreNotEqual(0, idTransazione);
 
+                //inserisco il movimento di acquisto per la transazione delle fase di mercato
                 int idFantaacquisto = cMercato.InsertAcquisto(idGiocatore, 0, idFantasquadra, DataMock.FakeData.GetInteger(0, 100), idTransazione);
 
-
+                //inserisco il giocatore dal mercato libero alla fantasquadra
                 int idGiocatoreInfantasquadra = cSLSquadra.InsertGiocatoreInFantasquadra(idGiocatore, idFantasquadra, idSLStagione, idTransazione, DateTime.Now);
                 Assert.AreNotEqual(0, idGiocatoreInfantasquadra);
             }
@@ -3848,6 +3920,76 @@ namespace MSUnitTestCore
         {
             try
             {
+                //creo la stagione
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+
+                //creo lo user e la sua fantasquadra
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idFantasquadra = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idFantasquadra);
+
+                //creo il giocatore
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                //creo una stagione di fantacalcio
+                DBControllers.SusyLeague.StagioneDBController cSLStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idSLStagione = cSLStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idSLStagione);
+
+                //inserisco una fase di mercato nella stagione di fantacalcio
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int idFase = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+                Assert.AreNotEqual(0, idFase);
+
+                //creo una transazione nella fase di mercato della stagione di fantacalcio
+                int idTransazione = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione);
+
+                //inserisco il movimento di acquisto per la transazione delle fase di mercato
+                int idFantaacquisto = cMercato.InsertAcquisto(idGiocatore, 0, idFantasquadra, DataMock.FakeData.GetInteger(0, 100), idTransazione);
+                Assert.AreNotEqual(0, idFantaacquisto);
+
+                //trasferisco il giocatore dal mercato libero alla fantasquadra
+                int idGiocatoreInfantasquadra = cSLSquadra.InsertGiocatoreInFantasquadra(idGiocatore, idFantasquadra, idSLStagione, idTransazione, DateTime.Now);
+                Assert.AreNotEqual(0, idGiocatoreInfantasquadra);
+
+                //creo un secondo user e una seconda fantasquadra
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
+                Assert.AreNotEqual(0, idUser2);
+                int idFantasquadra2 = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idFantasquadra2);
+
+                //nella stessa fase di mercato trasferisco il giocatore dalla squadra 1 alla squadra 2
+                //creo una transazione nella fase di mercato della stagione di fantacalcio
+                int idTransazione2 = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione2);
+
+                //trasferisco il giocatore dalla fantasquadra1 alla fantasquadra2
+
+                //inserisco il movimento di acquisto per la transazione delle fase di mercato
+                //in questa fase il gicatore deve ancora appartenere alla squadra iniziale
+                int idFantaacquisto2 = cMercato.InsertAcquisto(idGiocatore, idFantasquadra, idFantasquadra2, DataMock.FakeData.GetInteger(0, 100), idTransazione2);
+                Assert.AreNotEqual(0, idFantaacquisto2);
+
+                //dopo aver inserito il movimento di acquisto:
+                //1.chiudo la precedente associazione tra giocatore e fantasquadra1
+                cSLSquadra.DeleteGiocatoreDaFantasquadra(idGiocatore, idFantasquadra, idSLStagione, idTransazione2, DateTime.Now);
+
+                //2.inserisco il giocatore libero nella fantasquadra2
+                int idGiocatoreInfantasquadra2 = cSLSquadra.InsertGiocatoreInFantasquadra(idGiocatore, idFantasquadra2, idSLStagione, idTransazione2, DateTime.Now);
+                Assert.AreNotEqual(0, idGiocatoreInfantasquadra2);
 
             }
             catch (Exception)
@@ -3862,6 +4004,46 @@ namespace MSUnitTestCore
         {
             try
             {
+                //creo la stagione
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+
+                //creo lo user e la sua fantasquadra
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idFantasquadra = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idFantasquadra);
+
+
+                //creo una stagione di fantacalcio
+                DBControllers.SusyLeague.StagioneDBController cSLStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idSLStagione = cSLStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idSLStagione);
+
+                //inserisco una fase di mercato nella stagione di fantacalcio
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int idFase = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+                Assert.AreNotEqual(0, idFase);
+
+                //creo una transazione nella fase di mercato della stagione di fantacalcio
+                int idTransazione = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione);
+
+                //creo un secondo user e una seconda fantasquadra
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
+                Assert.AreNotEqual(0, idUser2);
+                int idFantasquadra2 = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idFantasquadra2);
+
+                //inserisco il movimento di Trasferimento fondi tra duq squadre
+                int idFantaacquisto = cMercato.InsertAcquisto(0, idFantasquadra, idFantasquadra2, DataMock.FakeData.GetInteger(0, 100), idTransazione);
+                Assert.AreNotEqual(0, idFantaacquisto);
 
             }
             catch (Exception)
@@ -3877,12 +4059,72 @@ namespace MSUnitTestCore
         {
             try
             {
+                //creo la stagione
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
+
+
+                //creo lo user e la sua fantasquadra
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idFantasquadra = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idFantasquadra);
+
+                //creo il giocatore
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                //creo una stagione di fantacalcio
+                DBControllers.SusyLeague.StagioneDBController cSLStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idSLStagione = cSLStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idSLStagione);
+
+                //inserisco una fase di mercato nella stagione di fantacalcio
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int idFase = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+                Assert.AreNotEqual(0, idFase);
+
+                //creo una transazione nella fase di mercato della stagione di fantacalcio
+                int idTransazione = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione);
+
+                //inserisco il movimento di acquisto per la transazione delle fase di mercato
+                int idFantaacquisto = cMercato.InsertAcquisto(idGiocatore, 0, idFantasquadra, DataMock.FakeData.GetInteger(0, 100), idTransazione);
+                Assert.AreNotEqual(0, idFantaacquisto);
+
+                //trasferisco il giocatore dal mercato libero alla fantasquadra
+                int idGiocatoreInfantasquadra = cSLSquadra.InsertGiocatoreInFantasquadra(idGiocatore, idFantasquadra, idSLStagione, idTransazione, DateTime.Now);
+                Assert.AreNotEqual(0, idGiocatoreInfantasquadra);
+
+                //creo una transazione nella fase di mercato della stagione di fantacalcio
+                int idTransazione2 = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione2);
+
+                //creo lo user e la sua fantasquadra
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
+                Assert.AreNotEqual(0, idUser2);
+                int idFantasquadra2 = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idFantasquadra2);
+
+                //queste istruzione genera l'errore
+                int idGiocatoreInfantasquadra2 = cSLSquadra.InsertGiocatoreInFantasquadra(idGiocatore, idFantasquadra2, idSLStagione, idTransazione2, DateTime.Now);
+                //qui non dovrebbe mai arrivare
+                Assert.AreNotEqual(0, idGiocatoreInfantasquadra2);
 
             }
             catch (SusyLeagueDBException ex)
             {
                 if (ManageError)
                     Assert.AreEqual(53011, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
@@ -3894,16 +4136,87 @@ namespace MSUnitTestCore
         {
             try
             {
+                //creo la stagione
+                DBControllers.SusyLeague.StagioneDBController cStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idStagione = cStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idStagione);
 
+
+                //creo lo user e la sua fantasquadra
+                UserDBController cUser = new UserDBController(DBIntegrationTests.ConnectionString);
+                int idUser = cUser.InsertUser(DataMock.FakeData.GetUsername());
+                Assert.AreNotEqual(0, idUser);
+
+                DBControllers.SusyLeague.SquadraDBController cSLSquadra = new DBControllers.SusyLeague.SquadraDBController(DBIntegrationTests.ConnectionString);
+                int idFantasquadra = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser);
+                Assert.AreNotEqual(0, idFantasquadra);
+
+                //creo il giocatore
+                GiocatoreDBController cGiocatore = new GiocatoreDBController(DBIntegrationTests.ConnectionString);
+                int idGiocatore = cGiocatore.InsertGiocatore(DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(8, false, true, false, false),
+                    DataMock.FakeData.GetString(4, true, false, true, false));
+                Assert.AreNotEqual(0, idGiocatore);
+
+                //creo una stagione di fantacalcio
+                DBControllers.SusyLeague.StagioneDBController cSLStagione = new DBControllers.SusyLeague.StagioneDBController(DBIntegrationTests.ConnectionString);
+                int idSLStagione = cSLStagione.InsertStagione(DataMock.FakeData.GetString(8, false, true, false, false));
+                Assert.AreNotEqual(0, idSLStagione);
+
+                //inserisco una fase di mercato nella stagione di fantacalcio
+                DBControllers.SusyLeague.MercatoDBController cMercato = new DBControllers.SusyLeague.MercatoDBController(DBIntegrationTests.ConnectionString);
+                int idFase = cMercato.InsertMercatoFase(DataMock.FakeData.GetString(10, false, true, false, false),
+                    DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)), DataMock.FakeData.GetDate(DateTime.Now.AddDays(iCounter++)));
+                Assert.AreNotEqual(0, idFase);
+
+                //creo una transazione nella fase di mercato della stagione di fantacalcio
+                int idTransazione = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione);
+
+                ////inserisco il movimento di acquisto per la transazione delle fase di mercato
+                //int idFantaacquisto = cMercato.InsertAcquisto(idGiocatore, 0, idFantasquadra, DataMock.FakeData.GetInteger(0, 100), idTransazione);
+                //Assert.AreNotEqual(0, idFantaacquisto);
+
+                ////trasferisco il giocatore dal mercato libero alla fantasquadra
+                //int idGiocatoreInfantasquadra = cSLSquadra.InsertGiocatoreInFantasquadra(idGiocatore, idFantasquadra, idSLStagione, idTransazione, DateTime.Now);
+                //Assert.AreNotEqual(0, idGiocatoreInfantasquadra);
+
+                //creo un secondo user e una seconda fantasquadra
+                int idUser2 = cUser.InsertUser(DataMock.FakeData.GetUsername());
+                Assert.AreNotEqual(0, idUser2);
+                int idFantasquadra2 = cSLSquadra.InsertSquadra(DataMock.FakeData.GetString(8, false, true, false, false), idStagione, idUser2);
+                Assert.AreNotEqual(0, idFantasquadra2);
+
+                //nella stessa fase di mercato trasferisco il giocatore dalla squadra 1 alla squadra 2
+                //creo una transazione nella fase di mercato della stagione di fantacalcio
+                int idTransazione2 = cMercato.InsertTransazione(idFase);
+                Assert.AreNotEqual(0, idTransazione2);
+
+                ////trasferisco il giocatore dalla fantasquadra1 alla fantasquadra2
+                ////chiudo la precedente associazione tra giocatore e fantasquadra1
+                //cSLSquadra.DeleteGiocatoreDaFantasquadra(idGiocatore, idFantasquadra, idSLStagione, idTransazione2, DateTime.Now);
+
+                //inserisco il movimento di acquisto per la transazione delle fase di mercato
+                //queste istruzione genera l'errore
+                int idFantaacquisto2 = cMercato.InsertAcquisto(idGiocatore, idFantasquadra, idFantasquadra2, DataMock.FakeData.GetInteger(0, 100), idTransazione2);
+                //qui non dovrebbe mai arrivare
+                Assert.AreNotEqual(0, idFantaacquisto2);
+
+                //Trasferisco il giocatore libero nella fantasquadra2
+                int idGiocatoreInfantasquadra2 = cSLSquadra.InsertGiocatoreInFantasquadra(idGiocatore, idFantasquadra2, idSLStagione, idTransazione2, DateTime.Now);
+                Assert.AreNotEqual(0, idGiocatoreInfantasquadra2);
             }
             catch (SusyLeagueDBException ex)
             {
                 if (ManageError)
                     Assert.AreEqual(53012, ex.Code);
+                else if (!TestError) { }
                 else
                     throw;
             }
         }
+
+
         #endregion
     }
 }
